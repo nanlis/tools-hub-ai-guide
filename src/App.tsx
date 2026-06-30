@@ -461,6 +461,33 @@ const homeEntries = [
   },
 ]
 
+const workflows = [
+  {
+    title: '古风短视频',
+    tag: '视觉生产',
+    text: '先定画面风格，再生成视频镜头，最后用配音和剪辑完成发布素材。',
+    tools: ['Midjourney', 'Kling', 'Runway', 'ElevenLabs'],
+    query: '视频',
+    category: 'video' as CategoryId,
+  },
+  {
+    title: 'AI 编程交付',
+    tag: '开发效率',
+    text: '用长上下文梳理需求，用 IDE Agent 改代码，再用搜索工具查官方资料。',
+    tools: ['Claude', 'Cursor', 'Claude Code', 'Perplexity'],
+    query: '代码',
+    category: 'code' as CategoryId,
+  },
+  {
+    title: '知识库问答',
+    tag: '资料整理',
+    text: '资料收集、上传分析、搭建 RAG，再把结果沉淀成可复用知识库。',
+    tools: ['Perplexity', 'NotebookLM', 'Dify', 'n8n'],
+    query: '资料',
+    category: 'office' as CategoryId,
+  },
+]
+
 function App() {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState<CategoryId | '全部'>('全部')
@@ -468,6 +495,7 @@ function App() {
   const [sort, setSort] = useState('推荐')
   const [favorites, setFavorites] = useState<number[]>([1, 19])
   const [activeVideo, setActiveVideo] = useState(0)
+  const [previewImage, setPreviewImage] = useState<{ src: string; title: string; tone: string } | null>(null)
 
   const visibleTools = useMemo(() => {
     const normalized = query.trim().toLowerCase()
@@ -514,6 +542,12 @@ function App() {
 
   function zoomStyle(src: string) {
     return { '--zoom-image': `url("${gufengBase}/${src}")` } as CSSProperties
+  }
+
+  function applyWorkflow(workflow: (typeof workflows)[number]) {
+    setCategory(workflow.category)
+    setQuery(workflow.query)
+    document.getElementById('tools')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
   return (
@@ -577,6 +611,36 @@ function App() {
                 <strong>{item.title}</strong>
                 <span>{item.text}</span>
               </a>
+            ))}
+          </div>
+        </section>
+
+        <section className="workflow-section" aria-label="精选 AI 创作工作流">
+          <div className="section-title workflow-title">
+            <div>
+              <p className="eyebrow">Workflow Picks</p>
+              <h2>精选 AI 创作工作流</h2>
+            </div>
+            <em>{workflows.length}</em>
+          </div>
+          <div className="workflow-grid">
+            {workflows.map((workflow, index) => (
+              <article className="workflow-card" key={workflow.title}>
+                <div className="workflow-card-head">
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <em>{workflow.tag}</em>
+                </div>
+                <h3>{workflow.title}</h3>
+                <p>{workflow.text}</p>
+                <div className="workflow-tools">
+                  {workflow.tools.map((tool) => (
+                    <span key={tool}>{tool}</span>
+                  ))}
+                </div>
+                <button type="button" onClick={() => applyWorkflow(workflow)}>
+                  查看这条路径
+                </button>
+              </article>
             ))}
           </div>
         </section>
@@ -668,9 +732,15 @@ function App() {
             <div className="library-grid">
               {gufengGallery.map((item) => (
                 <article className="library-item" key={item.src}>
-                  <div className="image-zoom" style={zoomStyle(item.src)} onMouseMove={moveMagnifier}>
+                  <button
+                    className="image-zoom image-preview-trigger"
+                    style={zoomStyle(item.src)}
+                    type="button"
+                    onMouseMove={moveMagnifier}
+                    onClick={() => setPreviewImage(item)}
+                  >
                     <img src={`${gufengBase}/${item.src}`} alt={item.title} />
-                  </div>
+                  </button>
                   <div className="library-meta">
                     <strong>{item.title}</strong>
                     <span>{item.tone}</span>
@@ -786,14 +856,36 @@ function App() {
                 ['gufeng-card-3.jpg', '暖调古风人像'],
                 ['gufeng-card-4.jpg', '竹林古风人像'],
               ].map(([src, alt]) => (
-                <div className="material-zoom image-zoom" style={zoomStyle(src)} onMouseMove={moveMagnifier} key={src}>
+                <button
+                  className="material-zoom image-zoom image-preview-trigger"
+                  style={zoomStyle(src)}
+                  type="button"
+                  onMouseMove={moveMagnifier}
+                  onClick={() => setPreviewImage({ src, title: alt, tone: '古风素材' })}
+                  key={src}
+                >
                   <img src={`${gufengBase}/${src}`} alt={alt} />
-                </div>
+                </button>
               ))}
             </div>
           </section>
         </aside>
       </div>
+
+      {previewImage ? (
+        <div className="preview-backdrop" role="presentation" onMouseDown={() => setPreviewImage(null)}>
+          <section className="image-preview" role="dialog" aria-modal="true" aria-label={previewImage.title} onMouseDown={(event) => event.stopPropagation()}>
+            <button className="preview-close" type="button" aria-label="关闭预览" onClick={() => setPreviewImage(null)}>
+              ×
+            </button>
+            <img src={`${gufengBase}/${previewImage.src}`} alt={previewImage.title} />
+            <div>
+              <strong>{previewImage.title}</strong>
+              <span>{previewImage.tone}</span>
+            </div>
+          </section>
+        </div>
+      ) : null}
     </main>
   )
 }
