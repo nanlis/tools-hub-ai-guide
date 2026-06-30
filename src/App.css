@@ -454,34 +454,59 @@ h1 {
   font-size: 11px;
 }
 
-.updates {
+.rank-list {
   display: grid;
-  gap: 9px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.updates li {
-  position: relative;
-  padding-left: 12px;
+.rank-list li + li {
+  margin-top: 6px;
+}
+
+.rank-list button {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) 34px;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  min-height: 30px;
+  border-radius: 8px;
+  padding: 0 8px;
   color: #64748b;
+  background: #f8fafc;
+  text-align: left;
+}
+
+.rank-list span {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  color: #c96c24;
+  background: #fff4e9;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.rank-list strong {
+  overflow: hidden;
+  color: #334155;
   font-size: 12px;
-  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.updates li::before {
-  position: absolute;
-  top: 8px;
-  left: 0;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #c96c24;
-  content: '';
+.rank-list em {
+  color: #94a3b8;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 800;
+  text-align: right;
 }
 
-.rail-card textarea,
 .submit-modal textarea {
   width: 100%;
   min-height: 88px;
@@ -501,25 +526,48 @@ h1 {
   line-height: 1.6;
 }
 
-.suggestions,
-.topic-list {
+.scenario-list,
+.new-list {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
 
-.suggestions {
-  margin-top: 8px;
-}
-
-.suggestions button,
-.topic-list span {
-  height: 24px;
+.scenario-list button {
+  height: 26px;
   border-radius: 999px;
-  padding: 0 9px;
+  padding: 0 10px;
   color: #64748b;
   background: #f3f6fa;
   font-size: 11px;
+  font-weight: 750;
+}
+
+.new-list {
+  display: grid;
+}
+
+.new-list button {
+  display: grid;
+  gap: 3px;
+  width: 100%;
+  border-radius: 8px;
+  padding: 9px;
+  color: #64748b;
+  background: #f8fafc;
+  text-align: left;
+}
+
+.new-list strong {
+  color: #334155;
+  font-size: 12px;
+}
+
+.new-list span {
+  overflow: hidden;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .compare-section {
