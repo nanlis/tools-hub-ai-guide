@@ -423,6 +423,15 @@ const heroSlides = [
   'gufeng-gallery-07.jpg',
 ]
 
+const heroVideos = [
+  { src: 'ancient-mystery-night.mp4', label: '雨夜古风', tone: '冷蓝电影感' },
+  { src: 'storm-spell-rain.mp4', label: '风暴仙侠', tone: '强冲击开屏' },
+  { src: 'storm-spell-wide.mp4', label: '雷云法术', tone: '大场面视觉' },
+  { src: 'lantern-market-mask.mp4', label: '灯市狐面', tone: '夜市氛围' },
+  { src: 'red-rain-portrait.mp4', label: '红衣雨夜', tone: '高对比人像' },
+  { src: 'mountain-qin.mp4', label: '云海抚琴', tone: '东方意境' },
+]
+
 function App() {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState<CategoryId | '全部'>('全部')
@@ -430,6 +439,7 @@ function App() {
   const [sort, setSort] = useState('推荐')
   const [favorites, setFavorites] = useState<number[]>([1, 19])
   const [showSubmit, setShowSubmit] = useState(false)
+  const [activeVideo, setActiveVideo] = useState(0)
 
   const visibleTools = useMemo(() => {
     const normalized = query.trim().toLowerCase()
@@ -467,6 +477,10 @@ function App() {
     setShowSubmit(false)
   }
 
+  function showNextVideo() {
+    setActiveVideo((current) => (current + 1) % heroVideos.length)
+  }
+
   return (
     <main className="app">
       <header className="topbar">
@@ -490,6 +504,44 @@ function App() {
         </nav>
       </header>
 
+      <section className="cinema-hero" aria-label="古风 AI 视觉开屏">
+        <video
+          className="cinema-video"
+          src={`/tools-hub-ai-guide/hero-videos/${heroVideos[activeVideo].src}`}
+          autoPlay
+          muted
+          playsInline
+          onEnded={showNextVideo}
+          key={heroVideos[activeVideo].src}
+        />
+        <div className="cinema-shade" />
+        <div className="cinema-content">
+          <p className="cinema-kicker">Morandi Teal · AI Visual Library</p>
+          <h1>ToolsHub AI</h1>
+          <p>从 AI 工具到古风视觉素材，用一个安静、克制、可筛选的入口完成创作选型。</p>
+          <div className="cinema-actions">
+            <a href="#tools">进入工具库</a>
+            <a className="secondary-link" href="#library">浏览古风素材</a>
+          </div>
+        </div>
+        <div className="video-switcher" aria-label="切换开屏视频">
+          {heroVideos.map((video, index) => (
+            <button
+              className={activeVideo === index ? 'active' : ''}
+              type="button"
+              key={video.src}
+              onClick={() => setActiveVideo(index)}
+            >
+              <span>{video.label}</span>
+              <em>{video.tone}</em>
+            </button>
+          ))}
+        </div>
+        <a className="scroll-cue" href="#tools" aria-label="向下查看工具库">
+          ↓
+        </a>
+      </section>
+
       <div className="shell" id="top">
         <aside className="left-rail" aria-label="工具分类">
           <button className={category === '全部' ? 'active' : ''} type="button" onClick={() => setCategory('全部')}>
@@ -512,7 +564,7 @@ function App() {
           </button>
         </aside>
 
-        <section className="main-column">
+        <section className="main-column" id="tools">
           <section className="compact-hero">
             <div>
               <p className="eyebrow">Morandi Glass · AI Tools Directory</p>
@@ -564,7 +616,7 @@ function App() {
             </div>
           </section>
 
-          <section className="library-section">
+          <section className="library-section" id="library">
             <div className="section-title">
               <h2>古风人像库</h2>
               <em>{gufengGallery.length}</em>
