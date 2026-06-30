@@ -415,6 +415,14 @@ const gufengGallery = [
   { src: 'gufeng-gallery-08.jpg', title: '雪夜红衣', tone: '红白对比' },
 ]
 
+const heroSlides = [
+  'gufeng-hero.jpg',
+  'gufeng-gallery-01.jpg',
+  'gufeng-gallery-03.jpg',
+  'gufeng-gallery-05.jpg',
+  'gufeng-gallery-07.jpg',
+]
+
 function App() {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState<CategoryId | '全部'>('全部')
@@ -550,7 +558,16 @@ function App() {
               </div>
             </div>
             <div className="gufeng-media">
-              <img src="/tools-hub-ai-guide/gufeng/gufeng-hero.jpg" alt="古风人像主视觉" />
+              <div className="hero-slideshow" aria-label="古风人像动态图片秀">
+                {heroSlides.map((slide, index) => (
+                  <img
+                    src={`/tools-hub-ai-guide/gufeng/${slide}`}
+                    alt={index === 0 ? '古风人像主视觉' : ''}
+                    aria-hidden={index === 0 ? undefined : true}
+                    key={slide}
+                  />
+                ))}
+              </div>
               <div className="glass-float">
                 <strong>Morandi Teal</strong>
                 <span>精选素材 / 可用于封面、专题和提示词灵感</span>
