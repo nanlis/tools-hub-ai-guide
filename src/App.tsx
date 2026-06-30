@@ -435,6 +435,30 @@ const heroVideoBase = import.meta.env.DEV
   ? '/tools-hub-ai-guide/hero-videos'
   : 'https://raw.githubusercontent.com/nanlis/tools-hub-ai-guide/master/public/hero-videos'
 
+const homeStats = [
+  { value: '32+', label: '精选 AI 工具' },
+  { value: '8', label: '创作场景分类' },
+  { value: '16', label: '古风视觉素材' },
+]
+
+const homeEntries = [
+  {
+    title: '先找工具',
+    text: '按对话、绘图、视频、编程、办公和 Agent 快速进入工具库。',
+    href: '#tools',
+  },
+  {
+    title: '再看素材',
+    text: '古风人像、蓝绿色调、毛玻璃卡片，直接作为视觉入口。',
+    href: '#library',
+  },
+  {
+    title: '按场景选型',
+    text: '短视频、写代码、做 PPT、查资料这些高频任务可以一键筛选。',
+    href: '#assistant',
+  },
+]
+
 function App() {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState<CategoryId | '全部'>('全部')
@@ -496,7 +520,7 @@ function App() {
           <h1>ToolsHub AI</h1>
           <p>从 AI 工具到古风视觉素材，用一个安静、克制、可筛选的入口完成创作选型。</p>
           <div className="cinema-actions">
-            <a href="#tools">进入工具库</a>
+            <a href="#top">进入主页</a>
             <a className="secondary-link" href="#library">浏览古风素材</a>
           </div>
         </div>
@@ -513,12 +537,36 @@ function App() {
             </button>
           ))}
         </div>
-        <a className="scroll-cue" href="#tools" aria-label="向下查看工具库">
+        <a className="scroll-cue" href="#top" aria-label="向下查看主页">
           ↓
         </a>
       </section>
 
       <div className="shell" id="top">
+        <section className="home-overview" aria-label="ToolsHub AI 首页概览">
+          <div className="home-copy">
+            <p className="eyebrow">Home</p>
+            <h2>从开屏视觉进入真正能用的 AI 创作主页</h2>
+            <p>这里不是普通工具列表，而是把工具检索、古风素材、热门入口和场景筛选放在同一个首页工作台里。</p>
+          </div>
+          <div className="home-stats">
+            {homeStats.map((item) => (
+              <div className="home-stat" key={item.label}>
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
+              </div>
+            ))}
+          </div>
+          <div className="home-entry-grid">
+            {homeEntries.map((item) => (
+              <a className="home-entry" href={item.href} key={item.title}>
+                <strong>{item.title}</strong>
+                <span>{item.text}</span>
+              </a>
+            ))}
+          </div>
+        </section>
+
         <aside className="left-rail" aria-label="工具分类">
           <button className={category === '全部' ? 'active' : ''} type="button" onClick={() => setCategory('全部')}>
             <span>🏠</span>
