@@ -425,11 +425,11 @@ const heroSlides = [
 
 const heroVideos = [
   { src: 'ancient-mystery-night.mp4', label: '雨夜古风', tone: '冷蓝电影感' },
-  { src: 'storm-spell-rain.mp4', label: '风暴仙侠', tone: '强冲击开屏' },
-  { src: 'storm-spell-wide.mp4', label: '雷云法术', tone: '大场面视觉' },
   { src: 'lantern-market-mask.mp4', label: '灯市狐面', tone: '夜市氛围' },
-  { src: 'red-rain-portrait.mp4', label: '红衣雨夜', tone: '高对比人像' },
+  { src: 'storm-spell-rain.mp4', label: '风暴仙侠', tone: '强冲击开屏' },
   { src: 'mountain-qin.mp4', label: '云海抚琴', tone: '东方意境' },
+  { src: 'storm-spell-wide.mp4', label: '雷云法术', tone: '大场面视觉' },
+  { src: 'red-rain-portrait.mp4', label: '红衣雨夜', tone: '高对比人像' },
 ]
 const heroVideoBase = 'https://raw.githubusercontent.com/nanlis/tools-hub-ai-guide/master/public/hero-videos'
 
