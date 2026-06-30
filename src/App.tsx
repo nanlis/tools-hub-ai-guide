@@ -507,9 +507,9 @@ function App() {
         <section className="main-column">
           <section className="compact-hero">
             <div>
-              <p className="eyebrow">AI Tools Directory</p>
+              <p className="eyebrow">Morandi Glass · AI Tools Directory</p>
               <h1>AI 工具导航</h1>
-              <p>精选常用 AI 工具，按对话、绘图、视频、编程、办公和 Agent 分类查找。</p>
+              <p>精选常用 AI 工具，按对话、绘图、视频、编程、办公和 Agent 分类查找。加入古风人像素材入口，做出我们自己的蓝绿色视觉识别。</p>
             </div>
             <div className="hero-actions">
               <select aria-label="价格筛选" value={price} onChange={(event) => setPrice(event.target.value as PriceOption)}>
@@ -524,6 +524,26 @@ function App() {
                 <option>评分</option>
                 <option>最新</option>
               </select>
+            </div>
+          </section>
+
+          <section className="gufeng-feature">
+            <div className="gufeng-copy">
+              <p className="eyebrow">Featured Library</p>
+              <h2>古风人像素材精选</h2>
+              <p>从本地素材库挑选冷调古风人像，用莫兰迪蓝绿和毛玻璃界面做成站点自己的视觉入口。</p>
+              <div className="gufeng-tags">
+                <span>古风人像</span>
+                <span>蓝绿色</span>
+                <span>毛玻璃质感</span>
+              </div>
+            </div>
+            <div className="gufeng-media">
+              <img src="/tools-hub-ai-guide/gufeng/gufeng-hero.jpg" alt="古风人像主视觉" />
+              <div className="glass-float">
+                <strong>Morandi Teal</strong>
+                <span>精选素材 / 可用于封面、专题和提示词灵感</span>
+              </div>
             </div>
           </section>
 
@@ -647,6 +667,17 @@ function App() {
                   <span>{tool.tagline}</span>
                 </button>
               ))}
+            </div>
+          </section>
+          <section className="rail-card material-card">
+            <div className="rail-title">
+              <strong>古风素材</strong>
+              <span>Library</span>
+            </div>
+            <div className="material-grid">
+              <img src="/tools-hub-ai-guide/gufeng/gufeng-card-1.jpg" alt="雪景古风人像" />
+              <img src="/tools-hub-ai-guide/gufeng/gufeng-card-2.jpg" alt="夜景古风人像" />
+              <img src="/tools-hub-ai-guide/gufeng/gufeng-card-3.jpg" alt="暖调古风人像" />
             </div>
           </section>
         </aside>
