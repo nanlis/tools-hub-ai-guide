@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react'
-import type { FormEvent } from 'react'
 import './App.css'
 
 type CategoryId = 'chat' | 'image' | 'video' | 'audio' | 'code' | 'office' | 'ppt' | 'agent'
@@ -439,7 +438,6 @@ function App() {
   const [price, setPrice] = useState<PriceOption>('全部')
   const [sort, setSort] = useState('推荐')
   const [favorites, setFavorites] = useState<number[]>([1, 19])
-  const [showSubmit, setShowSubmit] = useState(false)
   const [activeVideo, setActiveVideo] = useState(0)
 
   const visibleTools = useMemo(() => {
@@ -473,38 +471,12 @@ function App() {
     setFavorites((current) => (current.includes(id) ? current.filter((item) => item !== id) : [...current, id]))
   }
 
-  function submitTool(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    setShowSubmit(false)
-  }
-
   function showNextVideo() {
     setActiveVideo((current) => (current + 1) % heroVideos.length)
   }
 
   return (
     <main className="app">
-      <header className="topbar">
-        <a className="brand" href="#top" aria-label="ToolsHub 首页">
-          <span className="brand-mark">AI</span>
-          <span>工具集</span>
-        </a>
-        <label className="top-search">
-          <span>⌕</span>
-          <input
-            aria-label="搜索 AI 工具"
-            placeholder="搜索 AI 工具、场景、模型..."
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-          />
-        </label>
-        <nav className="nav-links" aria-label="快捷导航">
-          <button type="button" onClick={() => setShowSubmit(true)}>
-            提交
-          </button>
-        </nav>
-      </header>
-
       <section className="cinema-hero" aria-label="古风 AI 视觉开屏">
         <video
           className="cinema-video"
@@ -560,9 +532,6 @@ function App() {
               <strong>{item.name}</strong>
             </button>
           ))}
-          <button className="submit-entry" type="button" onClick={() => setShowSubmit(true)}>
-            + 提交工具
-          </button>
         </aside>
 
         <section className="main-column" id="tools">
@@ -573,6 +542,15 @@ function App() {
               <p>精选常用 AI 工具，按对话、绘图、视频、编程、办公和 Agent 分类查找。加入古风人像素材入口，做出我们自己的蓝绿色视觉识别。</p>
             </div>
             <div className="hero-actions">
+              <label className="inline-search">
+                <span>⌕</span>
+                <input
+                  aria-label="搜索 AI 工具"
+                  placeholder="搜索工具、场景、模型..."
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                />
+              </label>
               <select aria-label="价格筛选" value={price} onChange={(event) => setPrice(event.target.value as PriceOption)}>
                 {priceOptions.map((item) => (
                   <option value={item} key={item}>
@@ -743,25 +721,6 @@ function App() {
           </section>
         </aside>
       </div>
-
-      {showSubmit ? (
-        <div className="modal-backdrop" role="presentation" onMouseDown={() => setShowSubmit(false)}>
-          <form className="submit-modal" onSubmit={submitTool} onMouseDown={(event) => event.stopPropagation()}>
-            <h2>提交 AI 工具</h2>
-            <input required placeholder="工具名称" aria-label="工具名称" />
-            <input required placeholder="官网链接" aria-label="官网链接" />
-            <textarea required placeholder="一句话说明适合什么场景" aria-label="工具说明" />
-            <div className="modal-actions">
-              <button type="button" onClick={() => setShowSubmit(false)}>
-                取消
-              </button>
-              <button className="primary-button" type="submit">
-                提交
-              </button>
-            </div>
-          </form>
-        </div>
-      ) : null}
     </main>
   )
 }
