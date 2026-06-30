@@ -429,7 +429,6 @@ function App() {
   const [price, setPrice] = useState<PriceOption>('全部')
   const [sort, setSort] = useState('推荐')
   const [favorites, setFavorites] = useState<number[]>([1, 19])
-  const [compare, setCompare] = useState<number[]>([])
   const [showSubmit, setShowSubmit] = useState(false)
 
   const visibleTools = useMemo(() => {
@@ -456,19 +455,11 @@ function App() {
       tools: visibleTools.filter((tool) => tool.category === item.id),
     }))
     .filter((item) => item.tools.length > 0)
-  const comparedTools = tools.filter((tool) => compare.includes(tool.id))
   const topTools = [...tools].sort((a, b) => b.score - a.score).slice(0, 6)
   const newTools = tools.filter((tool) => tool.isNew)
 
   function toggleFavorite(id: number) {
     setFavorites((current) => (current.includes(id) ? current.filter((item) => item !== id) : [...current, id]))
-  }
-
-  function toggleCompare(id: number) {
-    setCompare((current) => {
-      if (current.includes(id)) return current.filter((item) => item !== id)
-      return [...current.slice(-2), id]
-    })
   }
 
   function submitTool(event: FormEvent<HTMLFormElement>) {
@@ -493,8 +484,6 @@ function App() {
           />
         </label>
         <nav className="nav-links" aria-label="快捷导航">
-          <a href="#assistant">快速筛选</a>
-          <a href="#compare">对比</a>
           <button type="button" onClick={() => setShowSubmit(true)}>
             提交
           </button>
@@ -626,40 +615,12 @@ function App() {
                       <a href={tool.url} target="_blank" rel="noreferrer">
                         官网
                       </a>
-                      <button
-                        className={compare.includes(tool.id) ? 'active-compare' : ''}
-                        type="button"
-                        onClick={() => toggleCompare(tool.id)}
-                      >
-                        对比
-                      </button>
                     </div>
                   </article>
                 ))}
               </div>
             </section>
           ))}
-
-          <section className="compare-section" id="compare">
-            <div className="section-title">
-              <h2>🧩 工具对比</h2>
-              <em>{comparedTools.length}</em>
-            </div>
-            {comparedTools.length === 0 ? (
-              <p className="empty-state">点击卡片里的「对比」，这里会显示工具定位、价格和评分。</p>
-            ) : (
-              <div className="compare-table">
-                {comparedTools.map((tool) => (
-                  <div className="compare-item" key={tool.id}>
-                    <strong>{tool.name}</strong>
-                    <span>{categories.find((item) => item.id === tool.category)?.name}</span>
-                    <span>{tool.price}</span>
-                    <span>{tool.score} / 5</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </section>
         </section>
 
         <aside className="right-rail" id="assistant">
