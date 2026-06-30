@@ -404,6 +404,17 @@ const scenarioShortcuts = [
 const priceOptions = ['全部', '免费', '免费增值', '付费'] as const
 type PriceOption = (typeof priceOptions)[number]
 
+const gufengGallery = [
+  { src: 'gufeng-gallery-01.jpg', title: '雨巷执伞', tone: '冷青夜景' },
+  { src: 'gufeng-gallery-02.jpg', title: '案前执笔', tone: '书房光影' },
+  { src: 'gufeng-gallery-03.jpg', title: '竹林斗笠', tone: '青绿武侠' },
+  { src: 'gufeng-gallery-04.jpg', title: '月下回眸', tone: '湖面冷光' },
+  { src: 'gufeng-gallery-05.jpg', title: '廊下听雨', tone: '园林夜色' },
+  { src: 'gufeng-gallery-06.jpg', title: '庭院静坐', tone: '浅蓝纱衣' },
+  { src: 'gufeng-gallery-07.jpg', title: '石阶青衫', tone: '莫兰迪绿' },
+  { src: 'gufeng-gallery-08.jpg', title: '雪夜红衣', tone: '红白对比' },
+]
+
 function App() {
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState<CategoryId | '全部'>('全部')
@@ -547,6 +558,24 @@ function App() {
             </div>
           </section>
 
+          <section className="library-section">
+            <div className="section-title">
+              <h2>古风人像库</h2>
+              <em>{gufengGallery.length}</em>
+            </div>
+            <div className="library-grid">
+              {gufengGallery.map((item) => (
+                <article className="library-item" key={item.src}>
+                  <img src={`/tools-hub-ai-guide/gufeng/${item.src}`} alt={item.title} />
+                  <div>
+                    <strong>{item.title}</strong>
+                    <span>{item.tone}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
           {groupedTools.map((section) => (
             <section className="tool-section" key={section.id}>
               <div className="section-title">
@@ -678,6 +707,7 @@ function App() {
               <img src="/tools-hub-ai-guide/gufeng/gufeng-card-1.jpg" alt="雪景古风人像" />
               <img src="/tools-hub-ai-guide/gufeng/gufeng-card-2.jpg" alt="夜景古风人像" />
               <img src="/tools-hub-ai-guide/gufeng/gufeng-card-3.jpg" alt="暖调古风人像" />
+              <img src="/tools-hub-ai-guide/gufeng/gufeng-card-4.jpg" alt="竹林古风人像" />
             </div>
           </section>
         </aside>
