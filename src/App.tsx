@@ -2,180 +2,401 @@ import { useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import './App.css'
 
-type Category =
-  | '全部'
-  | '写作'
-  | '图像'
-  | '视频'
-  | '开发'
-  | '办公'
-  | '营销'
-  | '研究'
+type CategoryId = 'chat' | 'image' | 'video' | 'audio' | 'code' | 'office' | 'ppt' | 'agent'
+
+type Category = {
+  id: CategoryId
+  icon: string
+  name: string
+  count: number
+}
 
 type Tool = {
   id: number
   name: string
-  category: Exclude<Category, '全部'>
+  category: CategoryId
   tagline: string
   description: string
   price: '免费' | '免费增值' | '付费'
   score: number
-  users: string
-  tags: string[]
   url: string
-  featured?: boolean
+  tags: string[]
+  isNew?: boolean
 }
 
-const categories: Category[] = ['全部', '写作', '图像', '视频', '开发', '办公', '营销', '研究']
+const categories: Category[] = [
+  { id: 'chat', icon: '💬', name: 'AI 对话', count: 9 },
+  { id: 'image', icon: '🎨', name: 'AI 绘图', count: 8 },
+  { id: 'video', icon: '🎬', name: 'AI 视频', count: 7 },
+  { id: 'audio', icon: '🎵', name: 'AI 音乐 & 语音', count: 5 },
+  { id: 'code', icon: '💻', name: 'AI 编程', count: 7 },
+  { id: 'office', icon: '🔎', name: 'AI 搜索 & 办公', count: 6 },
+  { id: 'ppt', icon: '✍️', name: 'AI 写作 & PPT', count: 5 },
+  { id: 'agent', icon: '🤖', name: 'AI Agent', count: 5 },
+]
 
 const tools: Tool[] = [
   {
     id: 1,
-    name: 'ChatGPT',
-    category: '写作',
-    tagline: '通用 AI 助手',
-    description: '适合问答、写作、代码解释、资料整理和工作流自动化。',
+    name: 'Claude',
+    category: 'chat',
+    tagline: '长文档分析和写作助手',
+    description: '适合长上下文阅读、总结、写作、代码协作。',
     price: '免费增值',
-    score: 4.9,
-    users: '2.4B',
-    tags: ['聊天', '写作', '代码'],
-    url: 'https://chatgpt.com',
-    featured: true,
+    score: 4.8,
+    url: 'https://claude.ai',
+    tags: ['长文', '写作'],
   },
   {
     id: 2,
-    name: 'Midjourney',
-    category: '图像',
-    tagline: '高质量视觉生成',
-    description: '面向海报、概念图、广告视觉和风格探索的图像生成工具。',
-    price: '付费',
-    score: 4.8,
-    users: '23M',
-    tags: ['图片', '设计', '风格'],
-    url: 'https://www.midjourney.com',
-    featured: true,
+    name: 'ChatGPT',
+    category: 'chat',
+    tagline: '通用 AI 助手',
+    description: '问答、写作、代码解释、资料整理和工作流自动化。',
+    price: '免费增值',
+    score: 4.9,
+    url: 'https://chatgpt.com',
+    tags: ['聊天', '代码'],
   },
   {
     id: 3,
-    name: 'Runway',
-    category: '视频',
-    tagline: 'AI 视频创作套件',
-    description: '提供文生视频、视频编辑、抠像、扩展画面等创意工作流。',
+    name: 'DeepSeek',
+    category: 'chat',
+    tagline: '推理和中文问答',
+    description: '适合中文问答、代码解释、数学和复杂推理。',
     price: '免费增值',
     score: 4.7,
-    users: '8M',
-    tags: ['视频', '剪辑', '生成'],
-    url: 'https://runwayml.com',
+    url: 'https://chat.deepseek.com',
+    tags: ['推理', '中文'],
   },
   {
     id: 4,
-    name: 'Cursor',
-    category: '开发',
-    tagline: 'AI 原生代码编辑器',
-    description: '把代码库上下文、补全、重构和聊天式编程整合到编辑器里。',
+    name: 'Gemini',
+    category: 'chat',
+    tagline: 'Google 多模态助手',
+    description: '适合搜索、文档、图片和 Google 生态任务。',
     price: '免费增值',
-    score: 4.8,
-    users: '5M',
-    tags: ['代码', 'IDE', '开发'],
-    url: 'https://cursor.com',
-    featured: true,
+    score: 4.6,
+    url: 'https://gemini.google.com',
+    tags: ['多模态'],
   },
   {
     id: 5,
-    name: 'Notion AI',
-    category: '办公',
-    tagline: '文档和知识库助手',
-    description: '在团队文档中总结、改写、生成任务和整理知识库。',
+    name: 'Grok',
+    category: 'chat',
+    tagline: 'X 平台实时信息助手',
+    description: '适合实时热点、社媒内容和趋势判断。',
     price: '付费',
-    score: 4.5,
-    users: '30M',
-    tags: ['笔记', '知识库', '团队'],
-    url: 'https://www.notion.com/product/ai',
+    score: 4.3,
+    url: 'https://grok.com',
+    tags: ['实时'],
   },
   {
     id: 6,
-    name: 'Perplexity',
-    category: '研究',
-    tagline: '带来源的答案搜索',
-    description: '适合快速调研、资料溯源、竞品研究和新闻追踪。',
+    name: 'Kimi',
+    category: 'chat',
+    tagline: '长文本阅读助手',
+    description: '适合长文档、PDF、网页和中文资料整理。',
     price: '免费增值',
-    score: 4.7,
-    users: '15M',
-    tags: ['搜索', '引用', '研究'],
-    url: 'https://www.perplexity.ai',
+    score: 4.5,
+    url: 'https://kimi.moonshot.cn',
+    tags: ['长文'],
   },
   {
     id: 7,
-    name: 'Canva AI',
-    category: '营销',
-    tagline: '营销设计一站式工具',
-    description: '快速制作社媒图、演示文稿、广告素材和品牌视觉资产。',
-    price: '免费增值',
-    score: 4.6,
-    users: '220M',
-    tags: ['设计', '营销', '模板'],
-    url: 'https://www.canva.com/ai',
+    name: 'Midjourney',
+    category: 'image',
+    tagline: '高质量视觉生成',
+    description: '适合海报、概念图、广告视觉和风格探索。',
+    price: '付费',
+    score: 4.8,
+    url: 'https://www.midjourney.com',
+    tags: ['图片', '设计'],
   },
   {
     id: 8,
-    name: 'Gamma',
-    category: '办公',
-    tagline: 'AI 演示文稿生成',
-    description: '输入主题后生成演示、页面和提案，适合快速出初稿。',
+    name: 'Flux',
+    category: 'image',
+    tagline: '高质量开源图像模型',
+    description: '适合写实图片、产品图和创意视觉生成。',
     price: '免费增值',
-    score: 4.5,
-    users: '50M',
-    tags: ['PPT', '提案', '文档'],
-    url: 'https://gamma.app',
+    score: 4.6,
+    url: 'https://blackforestlabs.ai',
+    tags: ['开源'],
   },
   {
     id: 9,
-    name: 'ElevenLabs',
-    category: '视频',
-    tagline: 'AI 语音与配音',
-    description: '提供高质量语音合成、配音、音色克隆和多语言音频制作。',
-    price: '免费增值',
-    score: 4.7,
-    users: '10M',
-    tags: ['语音', '配音', '音频'],
-    url: 'https://elevenlabs.io',
+    name: 'Stable Diffusion',
+    category: 'image',
+    tagline: '可控图像生成',
+    description: '适合本地部署、模型微调和复杂图像工作流。',
+    price: '免费',
+    score: 4.6,
+    url: 'https://stability.ai',
+    tags: ['本地'],
   },
   {
     id: 10,
-    name: 'Claude',
-    category: '写作',
-    tagline: '长文档分析助手',
-    description: '适合长上下文阅读、写作、分析、代码协作和复杂推理。',
+    name: 'Adobe Firefly',
+    category: 'image',
+    tagline: '商用设计图像生成',
+    description: '适合品牌设计、广告素材和 Adobe 工作流。',
     price: '免费增值',
-    score: 4.8,
-    users: '20M',
-    tags: ['长文', '分析', '写作'],
-    url: 'https://claude.ai',
+    score: 4.4,
+    url: 'https://firefly.adobe.com',
+    tags: ['商用'],
   },
   {
     id: 11,
-    name: 'V0',
-    category: '开发',
-    tagline: '界面生成与原型',
-    description: '用自然语言生成 React 界面，适合产品原型和前端起步。',
+    name: 'Canva AI',
+    category: 'image',
+    tagline: '模板化营销设计',
+    description: '适合社媒图、PPT、广告和轻量设计。',
     price: '免费增值',
-    score: 4.4,
-    users: '3M',
-    tags: ['React', 'UI', '原型'],
-    url: 'https://v0.dev',
+    score: 4.6,
+    url: 'https://www.canva.com/ai',
+    tags: ['模板'],
   },
   {
     id: 12,
-    name: 'HubSpot AI',
-    category: '营销',
-    tagline: '增长与销售助手',
-    description: '面向营销内容、CRM 数据、销售邮件和客户运营的 AI 套件。',
+    name: 'Runway',
+    category: 'video',
+    tagline: 'AI 视频创作套件',
+    description: '文生视频、视频编辑、抠像和扩展画面。',
+    price: '免费增值',
+    score: 4.7,
+    url: 'https://runwayml.com',
+    tags: ['视频', '剪辑'],
+  },
+  {
+    id: 13,
+    name: 'Kling',
+    category: 'video',
+    tagline: '高质量视频生成',
+    description: '适合短视频、镜头生成和画面延展。',
+    price: '免费增值',
+    score: 4.5,
+    url: 'https://klingai.com',
+    tags: ['短视频'],
+  },
+  {
+    id: 14,
+    name: 'Pika',
+    category: 'video',
+    tagline: '创意视频生成',
+    description: '适合动画、社媒短片和快速视频原型。',
+    price: '免费增值',
+    score: 4.4,
+    url: 'https://pika.art',
+    tags: ['动画'],
+  },
+  {
+    id: 15,
+    name: 'HeyGen',
+    category: 'video',
+    tagline: '数字人与视频翻译',
+    description: '适合口播视频、数字人和多语言营销内容。',
+    price: '付费',
+    score: 4.4,
+    url: 'https://www.heygen.com',
+    tags: ['数字人'],
+    isNew: true,
+  },
+  {
+    id: 16,
+    name: 'Suno',
+    category: 'audio',
+    tagline: 'AI 音乐生成',
+    description: '用提示词生成歌曲、配乐和社媒音频。',
+    price: '免费增值',
+    score: 4.6,
+    url: 'https://suno.com',
+    tags: ['音乐'],
+  },
+  {
+    id: 17,
+    name: 'ElevenLabs',
+    category: 'audio',
+    tagline: 'AI 语音和配音',
+    description: '高质量语音合成、配音和音色克隆。',
+    price: '免费增值',
+    score: 4.7,
+    url: 'https://elevenlabs.io',
+    tags: ['配音'],
+  },
+  {
+    id: 18,
+    name: 'Udio',
+    category: 'audio',
+    tagline: '歌曲和音乐生成',
+    description: '适合生成完整歌曲、音乐片段和创意 Demo。',
+    price: '免费增值',
+    score: 4.4,
+    url: 'https://www.udio.com',
+    tags: ['歌曲'],
+    isNew: true,
+  },
+  {
+    id: 19,
+    name: 'Cursor',
+    category: 'code',
+    tagline: 'AI 原生代码编辑器',
+    description: '代码库问答、补全、重构和聊天式编程。',
+    price: '免费增值',
+    score: 4.8,
+    url: 'https://cursor.com',
+    tags: ['IDE'],
+  },
+  {
+    id: 20,
+    name: 'Claude Code',
+    category: 'code',
+    tagline: '终端编程代理',
+    description: '适合在真实代码库里规划、修改和验证。',
+    price: '付费',
+    score: 4.7,
+    url: 'https://www.anthropic.com/claude-code',
+    tags: ['Agent'],
+  },
+  {
+    id: 21,
+    name: 'GitHub Copilot',
+    category: 'code',
+    tagline: 'IDE 代码助手',
+    description: '补全、解释、测试和 GitHub 工作流集成。',
+    price: '付费',
+    score: 4.5,
+    url: 'https://github.com/features/copilot',
+    tags: ['IDE'],
+  },
+  {
+    id: 22,
+    name: 'Windsurf',
+    category: 'code',
+    tagline: 'AI 编程工作区',
+    description: '适合多文件编辑、代码理解和前端开发。',
+    price: '免费增值',
+    score: 4.4,
+    url: 'https://windsurf.com',
+    tags: ['编辑器'],
+  },
+  {
+    id: 23,
+    name: 'Perplexity',
+    category: 'office',
+    tagline: '带来源的答案搜索',
+    description: '适合调研、溯源、竞品研究和新闻追踪。',
+    price: '免费增值',
+    score: 4.7,
+    url: 'https://www.perplexity.ai',
+    tags: ['搜索'],
+  },
+  {
+    id: 24,
+    name: 'NotebookLM',
+    category: 'office',
+    tagline: '资料库问答',
+    description: '上传资料后做问答、摘要和研究笔记。',
+    price: '免费',
+    score: 4.5,
+    url: 'https://notebooklm.google.com',
+    tags: ['资料'],
+  },
+  {
+    id: 25,
+    name: 'Notion AI',
+    category: 'office',
+    tagline: '文档和知识库助手',
+    description: '团队文档总结、改写、任务和知识整理。',
+    price: '付费',
+    score: 4.5,
+    url: 'https://www.notion.com/product/ai',
+    tags: ['知识库'],
+  },
+  {
+    id: 26,
+    name: '飞书 AI',
+    category: 'office',
+    tagline: '协作文档助手',
+    description: '适合会议、文档、项目和团队协作场景。',
+    price: '免费增值',
+    score: 4.3,
+    url: 'https://www.feishu.cn',
+    tags: ['协作'],
+  },
+  {
+    id: 27,
+    name: 'Jasper',
+    category: 'ppt',
+    tagline: '营销写作助手',
+    description: '适合广告、邮件、博客和品牌内容生成。',
     price: '付费',
     score: 4.3,
-    users: '12M',
-    tags: ['CRM', '销售', '邮件'],
-    url: 'https://www.hubspot.com/artificial-intelligence',
+    url: 'https://www.jasper.ai',
+    tags: ['营销'],
   },
+  {
+    id: 28,
+    name: 'Copy.ai',
+    category: 'ppt',
+    tagline: '销售和营销文案',
+    description: '适合邮件、社媒、落地页和销售话术。',
+    price: '免费增值',
+    score: 4.2,
+    url: 'https://www.copy.ai',
+    tags: ['文案'],
+  },
+  {
+    id: 29,
+    name: 'Gamma',
+    category: 'ppt',
+    tagline: 'AI 演示文稿生成',
+    description: '输入主题生成演示、页面和提案初稿。',
+    price: '免费增值',
+    score: 4.5,
+    url: 'https://gamma.app',
+    tags: ['PPT'],
+  },
+  {
+    id: 30,
+    name: 'Coze',
+    category: 'agent',
+    tagline: '可视化 Agent 搭建',
+    description: '适合创建聊天机器人、工作流和插件应用。',
+    price: '免费增值',
+    score: 4.4,
+    url: 'https://www.coze.com',
+    tags: ['Agent'],
+  },
+  {
+    id: 31,
+    name: 'Dify',
+    category: 'agent',
+    tagline: 'AI 应用开发平台',
+    description: '适合搭建 RAG、工作流和企业内部 AI 应用。',
+    price: '免费增值',
+    score: 4.5,
+    url: 'https://dify.ai',
+    tags: ['RAG'],
+  },
+  {
+    id: 32,
+    name: 'n8n',
+    category: 'agent',
+    tagline: '自动化工作流',
+    description: '连接工具、模型和 API，搭建自动化流程。',
+    price: '免费增值',
+    score: 4.4,
+    url: 'https://n8n.io',
+    tags: ['自动化'],
+  },
+]
+
+const updates = [
+  'NEW 榜单：9 个值得收藏的 AI 工具导航站',
+  '教程：写作 / 图像 / 视频 / 编程工具怎么选',
+  '新增：HeyGen、Udio、Claude Code、NotebookLM',
+  '提醒：先用免费额度验证流程，再决定付费',
 ]
 
 const priceOptions = ['全部', '免费', '免费增值', '付费'] as const
@@ -183,10 +404,10 @@ type PriceOption = (typeof priceOptions)[number]
 
 function App() {
   const [query, setQuery] = useState('')
-  const [category, setCategory] = useState<Category>('全部')
+  const [category, setCategory] = useState<CategoryId | '全部'>('全部')
   const [price, setPrice] = useState<PriceOption>('全部')
   const [sort, setSort] = useState('推荐')
-  const [favorites, setFavorites] = useState<number[]>([1, 4])
+  const [favorites, setFavorites] = useState<number[]>([1, 19])
   const [compare, setCompare] = useState<number[]>([])
   const [assistantQuestion, setAssistantQuestion] = useState('我想做中文短视频账号，应该先看哪些工具？')
   const [showSubmit, setShowSubmit] = useState(false)
@@ -199,20 +420,22 @@ function App() {
       .filter((tool) => price === '全部' || tool.price === price)
       .filter((tool) => {
         if (!normalized) return true
-        return [tool.name, tool.tagline, tool.description, tool.category, ...tool.tags]
-          .join(' ')
-          .toLowerCase()
-          .includes(normalized)
+        return [tool.name, tool.tagline, tool.description, ...tool.tags].join(' ').toLowerCase().includes(normalized)
       })
       .sort((a, b) => {
         if (sort === '评分') return b.score - a.score
-        if (sort === '热度') return Number.parseFloat(b.users) - Number.parseFloat(a.users)
-        if (sort === '最新') return b.id - a.id
-        return Number(b.featured) - Number(a.featured) || b.score - a.score
+        if (sort === '最新') return Number(b.isNew) - Number(a.isNew) || b.id - a.id
+        return b.score - a.score
       })
   }, [category, price, query, sort])
 
-  const featuredTools = tools.filter((tool) => tool.featured)
+  const shownCategories = category === '全部' ? categories : categories.filter((item) => item.id === category)
+  const groupedTools = shownCategories
+    .map((item) => ({
+      ...item,
+      tools: visibleTools.filter((tool) => tool.category === item.id),
+    }))
+    .filter((item) => item.tools.length > 0)
   const comparedTools = tools.filter((tool) => compare.includes(tool.id))
   const suggestedTools = visibleTools.slice(0, 3)
 
@@ -234,148 +457,160 @@ function App() {
 
   return (
     <main className="app">
-      <nav className="topbar" aria-label="主导航">
-        <a className="brand" href="#top" aria-label="AI Tools Guide 首页">
+      <header className="topbar">
+        <a className="brand" href="#top" aria-label="ToolsHub 首页">
           <span className="brand-mark">AI</span>
-          <span>ToolsHub</span>
+          <span>工具集</span>
         </a>
-        <div className="nav-links">
-          <a href="#tools">工具库</a>
+        <label className="top-search">
+          <span>⌕</span>
+          <input
+            aria-label="搜索 AI 工具"
+            placeholder="搜索 AI 工具、场景、模型..."
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+        </label>
+        <nav className="nav-links" aria-label="快捷导航">
+          <a href="#assistant">工具问答</a>
           <a href="#compare">对比</a>
-          <a href="#assistant">问答助手</a>
-        </div>
-        <button className="primary-button" type="button" onClick={() => setShowSubmit(true)}>
-          提交工具
-        </button>
-      </nav>
+          <button type="button" onClick={() => setShowSubmit(true)}>
+            提交
+          </button>
+        </nav>
+      </header>
 
-      <section className="hero" id="top">
-        <div className="hero-copy">
-          <p className="eyebrow">AI 工具导航站</p>
-          <h1>用更少时间，找到真正适合任务的 AI 工具。</h1>
-          <p className="hero-text">
-            按场景、价格、热度和评分筛选工具。适合做成中文 AI 工具目录、出海工具站或团队内部工具库。
-          </p>
-          <div className="search-panel">
-            <input
-              aria-label="搜索 AI 工具"
-              placeholder="搜索：写作、视频、代码、PPT、营销..."
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-            />
-            <button type="button" onClick={() => setQuery('')}>
-              清空
-            </button>
-          </div>
-          <div className="hero-stats" aria-label="站点统计">
-            <span>
-              <strong>{tools.length}</strong> 个精选工具
-            </span>
-            <span>
-              <strong>{categories.length - 1}</strong> 个分类
-            </span>
-            <span>
-              <strong>{favorites.length}</strong> 个收藏
-            </span>
-          </div>
-        </div>
-        <div className="hero-board" aria-label="热门工具">
-          <div className="board-header">
-            <span>本周热门</span>
-            <strong>Top Picks</strong>
-          </div>
-          {featuredTools.map((tool, index) => (
-            <a className="hot-row" href={tool.url} target="_blank" rel="noreferrer" key={tool.id}>
-              <span>{index + 1}</span>
-              <div>
-                <strong>{tool.name}</strong>
-                <p>{tool.tagline}</p>
-              </div>
-              <em>{tool.score}</em>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      <section className="toolbar" aria-label="筛选工具">
-        <div className="category-tabs">
+      <div className="shell" id="top">
+        <aside className="left-rail" aria-label="工具分类">
+          <button className={category === '全部' ? 'active' : ''} type="button" onClick={() => setCategory('全部')}>
+            <span>🏠</span>
+            <strong>全部工具</strong>
+          </button>
           {categories.map((item) => (
             <button
-              className={item === category ? 'active' : ''}
+              className={category === item.id ? 'active' : ''}
               type="button"
-              key={item}
-              onClick={() => setCategory(item)}
+              key={item.id}
+              onClick={() => setCategory(item.id)}
             >
-              {item}
+              <span>{item.icon}</span>
+              <strong>{item.name}</strong>
             </button>
           ))}
-        </div>
-        <div className="filters">
-          <select aria-label="价格筛选" value={price} onChange={(event) => setPrice(event.target.value as PriceOption)}>
-            {priceOptions.map((item) => (
-              <option value={item} key={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <select aria-label="排序" value={sort} onChange={(event) => setSort(event.target.value)}>
-            <option>推荐</option>
-            <option>评分</option>
-            <option>热度</option>
-            <option>最新</option>
-          </select>
-        </div>
-      </section>
+          <button className="submit-entry" type="button" onClick={() => setShowSubmit(true)}>
+            + 提交工具
+          </button>
+        </aside>
 
-      <section className="content-grid" id="tools">
-        <div className="tool-grid">
-          {visibleTools.map((tool) => (
-            <article className="tool-card" key={tool.id}>
-              <div className="tool-topline">
-                <span className="tool-logo">{tool.name.slice(0, 1)}</span>
-                <div>
-                  <h2>{tool.name}</h2>
-                  <p>{tool.tagline}</p>
-                </div>
-                <button
-                  className={favorites.includes(tool.id) ? 'icon-button saved' : 'icon-button'}
-                  type="button"
-                  aria-label={`收藏 ${tool.name}`}
-                  onClick={() => toggleFavorite(tool.id)}
-                >
-                  ★
-                </button>
+        <section className="main-column">
+          <section className="compact-hero">
+            <div>
+              <p className="eyebrow">AI Tools Directory</p>
+              <h1>AI 工具导航</h1>
+              <p>精选常用 AI 工具，按对话、绘图、视频、编程、办公和 Agent 分类查找。</p>
+            </div>
+            <div className="hero-actions">
+              <select aria-label="价格筛选" value={price} onChange={(event) => setPrice(event.target.value as PriceOption)}>
+                {priceOptions.map((item) => (
+                  <option value={item} key={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+              <select aria-label="排序" value={sort} onChange={(event) => setSort(event.target.value)}>
+                <option>推荐</option>
+                <option>评分</option>
+                <option>最新</option>
+              </select>
+            </div>
+          </section>
+
+          {groupedTools.map((section) => (
+            <section className="tool-section" key={section.id}>
+              <div className="section-title">
+                <h2>
+                  <span>{section.icon}</span>
+                  {section.name}
+                </h2>
+                <em>{section.tools.length}</em>
               </div>
-              <p className="description">{tool.description}</p>
-              <div className="tag-row">
-                {tool.tags.map((tag) => (
-                  <span key={tag}>{tag}</span>
+              <div className="tool-grid">
+                {section.tools.map((tool) => (
+                  <article className="tool-card" key={tool.id}>
+                    {tool.isNew ? <span className="new-badge">NEW</span> : null}
+                    <button
+                      className={favorites.includes(tool.id) ? 'info-button saved' : 'info-button'}
+                      type="button"
+                      aria-label={`收藏 ${tool.name}`}
+                      onClick={() => toggleFavorite(tool.id)}
+                    >
+                      i
+                    </button>
+                    <div className="tool-head">
+                      <span className={`tool-logo tone-${tool.category}`}>{tool.name.slice(0, 1)}</span>
+                      <div>
+                        <h3>{tool.name}</h3>
+                        <p>{tool.tagline}</p>
+                      </div>
+                    </div>
+                    <p className="description">{tool.description}</p>
+                    <div className="card-actions">
+                      <a href={tool.url} target="_blank" rel="noreferrer">
+                        官网
+                      </a>
+                      <button
+                        className={compare.includes(tool.id) ? 'active-compare' : ''}
+                        type="button"
+                        onClick={() => toggleCompare(tool.id)}
+                      >
+                        对比
+                      </button>
+                    </div>
+                  </article>
                 ))}
               </div>
-              <div className="tool-meta">
-                <span>{tool.category}</span>
-                <span>{tool.price}</span>
-                <span>评分 {tool.score}</span>
-              </div>
-              <div className="card-actions">
-                <a href={tool.url} target="_blank" rel="noreferrer">
-                  访问
-                </a>
-                <button
-                  className={compare.includes(tool.id) ? 'active-compare' : ''}
-                  type="button"
-                  onClick={() => toggleCompare(tool.id)}
-                >
-                  {compare.includes(tool.id) ? '已加入对比' : '加入对比'}
-                </button>
-              </div>
-            </article>
+            </section>
           ))}
-        </div>
 
-        <aside className="side-panel" id="assistant">
-          <div className="panel-block">
-            <h2>AI 选型助手</h2>
+          <section className="compare-section" id="compare">
+            <div className="section-title">
+              <h2>🧩 工具对比</h2>
+              <em>{comparedTools.length}</em>
+            </div>
+            {comparedTools.length === 0 ? (
+              <p className="empty-state">点击卡片里的「对比」，这里会显示工具定位、价格和评分。</p>
+            ) : (
+              <div className="compare-table">
+                {comparedTools.map((tool) => (
+                  <div className="compare-item" key={tool.id}>
+                    <strong>{tool.name}</strong>
+                    <span>{categories.find((item) => item.id === tool.category)?.name}</span>
+                    <span>{tool.price}</span>
+                    <span>{tool.score} / 5</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        </section>
+
+        <aside className="right-rail" id="assistant">
+          <section className="rail-card">
+            <div className="rail-title">
+              <strong>更新日志</strong>
+              <span>2026-06-30</span>
+            </div>
+            <ul className="updates">
+              {updates.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
+          <section className="rail-card">
+            <div className="rail-title">
+              <strong>AI 工具助手</strong>
+              <span>Beta</span>
+            </div>
             <textarea
               aria-label="输入需求"
               value={assistantQuestion}
@@ -388,106 +623,22 @@ function App() {
                 </button>
               ))}
             </div>
-            <p className="assistant-answer">
-              建议先看 {suggestedTools.map((tool) => tool.name).join('、') || '当前筛选结果'}。先用免费增值工具验证流程，再决定是否付费。
-            </p>
-          </div>
-          <div className="panel-block">
-            <h2>快速入口</h2>
-            <a href="#tools">全部工具</a>
-            <a href="#compare">工具对比</a>
-            <button type="button" onClick={() => setShowSubmit(true)}>
-              推荐新工具
-            </button>
-          </div>
+            <p>建议先看 {suggestedTools.map((tool) => tool.name).join('、') || '当前筛选结果'}，先用免费额度验证流程。</p>
+          </section>
+          <section className="rail-card">
+            <div className="rail-title">
+              <strong>实时热点</strong>
+              <span>{visibleTools.length}</span>
+            </div>
+            <div className="topic-list">
+              <span>AI 视频生成</span>
+              <span>编程 Agent</span>
+              <span>知识库问答</span>
+              <span>图像工作流</span>
+            </div>
+          </section>
         </aside>
-      </section>
-
-      <section className="compare-section" id="compare">
-        <div>
-          <p className="eyebrow">Compare</p>
-          <h2>工具对比</h2>
-        </div>
-        {comparedTools.length === 0 ? (
-          <p className="empty-state">从工具卡片里加入 2 到 3 个工具，就能在这里快速比较定位、价格和评分。</p>
-        ) : (
-          <div className="compare-table">
-            {comparedTools.map((tool) => (
-              <div className="compare-item" key={tool.id}>
-                <strong>{tool.name}</strong>
-                <span>{tool.category}</span>
-                <span>{tool.price}</span>
-                <span>{tool.score} / 5</span>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
-
-      <section className="site-section">
-        <div className="section-heading">
-          <p className="eyebrow">Use Cases</p>
-          <h2>按真实工作场景找工具</h2>
-        </div>
-        <div className="scenario-grid">
-          {[
-            ['内容创作', '选题、长文、短视频脚本、封面图和分发文案。'],
-            ['产品研发', '界面原型、代码生成、文档总结和需求拆解。'],
-            ['增长营销', '广告素材、落地页、邮件、CRM 和数据洞察。'],
-            ['研究学习', '资料搜索、论文阅读、引用整理和竞品分析。'],
-          ].map(([title, body]) => (
-            <article className="scenario-card" key={title}>
-              <strong>{title}</strong>
-              <p>{body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="site-section quality-section">
-        <div>
-          <p className="eyebrow">Standard</p>
-          <h2>收录标准</h2>
-          <p>
-            优先收录有明确使用场景、稳定官网、清晰价格、可公开访问且对个人或小团队有实际价值的 AI 工具。
-          </p>
-        </div>
-        <div className="quality-list">
-          <span>官网可访问</span>
-          <span>场景明确</span>
-          <span>价格透明</span>
-          <span>近期仍活跃</span>
-        </div>
-      </section>
-
-      <section className="site-section faq-section">
-        <div className="section-heading">
-          <p className="eyebrow">FAQ</p>
-          <h2>常见问题</h2>
-        </div>
-        <details open>
-          <summary>这个站现在能给别人看吗？</summary>
-          <p>可以。当前版本是静态前端站，适合通过 Cloudflare 临时地址、Cloudflare Pages、Vercel 或自有服务器公开访问。</p>
-        </details>
-        <details>
-          <summary>工具数据以后怎么维护？</summary>
-          <p>现在数据内置在前端，下一步可以拆成 JSON、CMS、Airtable、Notion 数据库或后台管理系统。</p>
-        </details>
-        <details>
-          <summary>提交工具会直接入库吗？</summary>
-          <p>当前是前端演示表单。正式上线时可以接邮箱通知、飞书表格、数据库或审核后台。</p>
-        </details>
-      </section>
-
-      <footer className="site-footer">
-        <div>
-          <strong>ToolsHub</strong>
-          <p>AI 工具导航、选型和对比入口。</p>
-        </div>
-        <button className="primary-button" type="button" onClick={() => setShowSubmit(true)}>
-          推荐工具
-        </button>
-      </footer>
+      </div>
 
       {showSubmit ? (
         <div className="modal-backdrop" role="presentation" onMouseDown={() => setShowSubmit(false)}>
