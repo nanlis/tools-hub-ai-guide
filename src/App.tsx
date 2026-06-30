@@ -392,11 +392,13 @@ const tools: Tool[] = [
   },
 ]
 
-const updates = [
-  'NEW 榜单：9 个值得收藏的 AI 工具导航站',
-  '教程：写作 / 图像 / 视频 / 编程工具怎么选',
-  '新增：HeyGen、Udio、Claude Code、NotebookLM',
-  '提醒：先用免费额度验证流程，再决定付费',
+const scenarioShortcuts = [
+  { label: '做短视频', query: '视频' },
+  { label: '写代码', query: '代码' },
+  { label: '做 PPT', query: 'PPT' },
+  { label: '查资料', query: '搜索' },
+  { label: '做配音', query: '配音' },
+  { label: '搭 Agent', query: 'Agent' },
 ]
 
 const priceOptions = ['全部', '免费', '免费增值', '付费'] as const
@@ -409,7 +411,6 @@ function App() {
   const [sort, setSort] = useState('推荐')
   const [favorites, setFavorites] = useState<number[]>([1, 19])
   const [compare, setCompare] = useState<number[]>([])
-  const [assistantQuestion, setAssistantQuestion] = useState('我想做中文短视频账号，应该先看哪些工具？')
   const [showSubmit, setShowSubmit] = useState(false)
 
   const visibleTools = useMemo(() => {
@@ -437,7 +438,8 @@ function App() {
     }))
     .filter((item) => item.tools.length > 0)
   const comparedTools = tools.filter((tool) => compare.includes(tool.id))
-  const suggestedTools = visibleTools.slice(0, 3)
+  const topTools = [...tools].sort((a, b) => b.score - a.score).slice(0, 6)
+  const newTools = tools.filter((tool) => tool.isNew)
 
   function toggleFavorite(id: number) {
     setFavorites((current) => (current.includes(id) ? current.filter((item) => item !== id) : [...current, id]))
@@ -472,7 +474,7 @@ function App() {
           />
         </label>
         <nav className="nav-links" aria-label="快捷导航">
-          <a href="#assistant">工具问答</a>
+          <a href="#assistant">快速筛选</a>
           <a href="#compare">对比</a>
           <button type="button" onClick={() => setShowSubmit(true)}>
             提交
@@ -597,44 +599,54 @@ function App() {
         <aside className="right-rail" id="assistant">
           <section className="rail-card">
             <div className="rail-title">
-              <strong>更新日志</strong>
-              <span>2026-06-30</span>
+              <strong>热门工具</strong>
+              <span>Top {topTools.length}</span>
             </div>
-            <ul className="updates">
-              {updates.map((item) => (
-                <li key={item}>{item}</li>
+            <ol className="rank-list">
+              {topTools.map((tool, index) => (
+                <li key={tool.id}>
+                  <button type="button" onClick={() => setQuery(tool.name)}>
+                    <span>{index + 1}</span>
+                    <strong>{tool.name}</strong>
+                    <em>{tool.score}</em>
+                  </button>
+                </li>
               ))}
-            </ul>
+            </ol>
           </section>
           <section className="rail-card">
             <div className="rail-title">
-              <strong>AI 工具助手</strong>
-              <span>Beta</span>
+              <strong>按场景找</strong>
+              <span>Quick</span>
             </div>
-            <textarea
-              aria-label="输入需求"
-              value={assistantQuestion}
-              onChange={(event) => setAssistantQuestion(event.target.value)}
-            />
-            <div className="suggestions">
-              {suggestedTools.map((tool) => (
-                <button type="button" key={tool.id} onClick={() => setQuery(tool.name)}>
-                  {tool.name}
+            <div className="scenario-list">
+              {scenarioShortcuts.map((item) => (
+                <button
+                  type="button"
+                  key={item.label}
+                  onClick={() => {
+                    setCategory('全部')
+                    setQuery(item.query)
+                  }}
+                >
+                  {item.label}
                 </button>
               ))}
             </div>
-            <p>建议先看 {suggestedTools.map((tool) => tool.name).join('、') || '当前筛选结果'}，先用免费额度验证流程。</p>
+            <p>这些按钮会直接筛选工具库，不假装后台 AI 问答。</p>
           </section>
           <section className="rail-card">
             <div className="rail-title">
-              <strong>实时热点</strong>
-              <span>{visibleTools.length}</span>
+              <strong>最近新增</strong>
+              <span>{newTools.length}</span>
             </div>
-            <div className="topic-list">
-              <span>AI 视频生成</span>
-              <span>编程 Agent</span>
-              <span>知识库问答</span>
-              <span>图像工作流</span>
+            <div className="new-list">
+              {newTools.map((tool) => (
+                <button type="button" key={tool.id} onClick={() => setQuery(tool.name)}>
+                  <strong>{tool.name}</strong>
+                  <span>{tool.tagline}</span>
+                </button>
+              ))}
             </div>
           </section>
         </aside>
