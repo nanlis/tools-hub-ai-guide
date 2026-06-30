@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 verification-*.png
+*-candidates-*.png
+reference-*.png
+redesign-*.png
+right-rail-*.png
+morandi-*.png
+gufeng-candidates-*.png
 
 # Editor directories and files
 .vscode/*
