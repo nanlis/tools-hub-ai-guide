@@ -431,6 +431,7 @@ const heroVideos = [
   { src: 'red-rain-portrait.mp4', label: '红衣雨夜', tone: '高对比人像' },
   { src: 'mountain-qin.mp4', label: '云海抚琴', tone: '东方意境' },
 ]
+const heroVideoBase = 'https://raw.githubusercontent.com/nanlis/tools-hub-ai-guide/master/public/hero-videos'
 
 function App() {
   const [query, setQuery] = useState('')
@@ -507,7 +508,7 @@ function App() {
       <section className="cinema-hero" aria-label="古风 AI 视觉开屏">
         <video
           className="cinema-video"
-          src={`/tools-hub-ai-guide/hero-videos/${heroVideos[activeVideo].src}`}
+          src={`${heroVideoBase}/${heroVideos[activeVideo].src}`}
           autoPlay
           muted
           playsInline
