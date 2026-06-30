@@ -285,6 +285,7 @@ button {
 }
 
 .home-overview,
+.workflow-section,
 .compact-hero,
 .gufeng-feature,
 .library-section,
@@ -390,6 +391,104 @@ button {
   color: #6a7f82;
   font-size: 12px;
   line-height: 1.45;
+}
+
+.workflow-section {
+  grid-column: 1 / -1;
+  padding: 16px;
+  border-radius: 22px;
+}
+
+.workflow-title {
+  align-items: end;
+}
+
+.workflow-title h2 {
+  color: #24383d;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.workflow-card {
+  display: grid;
+  gap: 10px;
+  min-height: 230px;
+  border: 1px solid rgba(176, 200, 196, 0.44);
+  border-radius: 18px;
+  padding: 14px;
+  background: rgba(247, 251, 250, 0.58);
+}
+
+.workflow-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.workflow-card-head span {
+  color: rgba(50, 93, 89, 0.3);
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.workflow-card-head em {
+  height: 22px;
+  border-radius: 999px;
+  padding: 0 9px;
+  color: #527973;
+  background: rgba(221, 235, 232, 0.78);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 900;
+  line-height: 22px;
+}
+
+.workflow-card h3 {
+  color: #26383d;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.workflow-card p {
+  color: #61777a;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.workflow-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-self: end;
+}
+
+.workflow-tools span {
+  height: 24px;
+  border-radius: 999px;
+  padding: 0 9px;
+  color: #61777a;
+  background: rgba(255, 255, 255, 0.64);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 24px;
+}
+
+.workflow-card button {
+  justify-self: start;
+  height: 30px;
+  border-radius: 999px;
+  padding: 0 12px;
+  color: #f8fbfb;
+  background: #517773;
+  font-size: 12px;
+  font-weight: 900;
 }
 
 .compact-hero {
@@ -668,6 +767,15 @@ h1 {
   overflow: hidden;
   cursor: zoom-in;
   isolation: isolate;
+}
+
+.image-preview-trigger {
+  display: block;
+  width: 100%;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  text-align: left;
 }
 
 .image-zoom::before {
@@ -1099,6 +1207,76 @@ h1 {
   border-radius: 12px;
 }
 
+.preview-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(7, 18, 20, 0.58);
+  backdrop-filter: blur(16px);
+}
+
+.image-preview {
+  position: relative;
+  overflow: hidden;
+  width: min(920px, 100%);
+  border: 1px solid rgba(232, 244, 241, 0.42);
+  border-radius: 24px;
+  background: rgba(21, 36, 40, 0.82);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.34);
+}
+
+.image-preview img {
+  display: block;
+  width: 100%;
+  max-height: 72vh;
+  object-fit: cover;
+}
+
+.image-preview div {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  left: 18px;
+  display: grid;
+  gap: 3px;
+  max-width: 320px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 16px;
+  padding: 12px 14px;
+  color: #f8fbfb;
+  background: rgba(24, 40, 44, 0.54);
+  backdrop-filter: blur(18px) saturate(1.3);
+}
+
+.image-preview strong {
+  font-size: 15px;
+}
+
+.image-preview span {
+  color: rgba(248, 251, 251, 0.72);
+  font-size: 12px;
+}
+
+.preview-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: #f8fbfb;
+  background: rgba(7, 18, 20, 0.42);
+  font-size: 24px;
+  line-height: 1;
+  backdrop-filter: blur(14px);
+}
+
 @media (max-width: 1180px) {
   .shell {
     grid-template-columns: 140px minmax(0, 1fr);
@@ -1114,6 +1292,10 @@ h1 {
   }
 
   .home-entry-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .workflow-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
@@ -1243,6 +1425,20 @@ h1 {
 
   .home-entry {
     min-height: 58px;
+  }
+
+  .workflow-section {
+    grid-column: 1;
+    padding: 14px;
+    border-radius: 20px;
+  }
+
+  .workflow-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .workflow-card {
+    min-height: 0;
   }
 
   .left-rail,
@@ -1497,5 +1693,23 @@ h1 {
 
   .material-grid img {
     height: 76px;
+  }
+
+  .preview-backdrop {
+    padding: 14px;
+  }
+
+  .image-preview {
+    border-radius: 18px;
+  }
+
+  .image-preview img {
+    max-height: 76vh;
+  }
+
+  .image-preview div {
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
   }
 }
