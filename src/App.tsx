@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import type { CSSProperties, MouseEvent } from 'react'
 import './App.css'
 
 type CategoryId = 'chat' | 'image' | 'video' | 'audio' | 'code' | 'office' | 'ppt' | 'agent'
@@ -434,6 +435,7 @@ const heroVideos = [
 const heroVideoBase = import.meta.env.DEV
   ? '/tools-hub-ai-guide/hero-videos'
   : 'https://raw.githubusercontent.com/nanlis/tools-hub-ai-guide/master/public/hero-videos'
+const gufengBase = '/tools-hub-ai-guide/gufeng'
 
 const homeStats = [
   { value: '32+', label: '精选 AI 工具' },
@@ -500,6 +502,18 @@ function App() {
 
   function showNextVideo() {
     setActiveVideo((current) => (current + 1) % heroVideos.length)
+  }
+
+  function moveMagnifier(event: MouseEvent<HTMLElement>) {
+    const rect = event.currentTarget.getBoundingClientRect()
+    const x = ((event.clientX - rect.left) / rect.width) * 100
+    const y = ((event.clientY - rect.top) / rect.height) * 100
+    event.currentTarget.style.setProperty('--mx', `${x}%`)
+    event.currentTarget.style.setProperty('--my', `${y}%`)
+  }
+
+  function zoomStyle(src: string) {
+    return { '--zoom-image': `url("${gufengBase}/${src}")` } as CSSProperties
   }
 
   return (
@@ -654,8 +668,10 @@ function App() {
             <div className="library-grid">
               {gufengGallery.map((item) => (
                 <article className="library-item" key={item.src}>
-                  <img src={`/tools-hub-ai-guide/gufeng/${item.src}`} alt={item.title} />
-                  <div>
+                  <div className="image-zoom" style={zoomStyle(item.src)} onMouseMove={moveMagnifier}>
+                    <img src={`${gufengBase}/${item.src}`} alt={item.title} />
+                  </div>
+                  <div className="library-meta">
                     <strong>{item.title}</strong>
                     <span>{item.tone}</span>
                   </div>
@@ -764,10 +780,16 @@ function App() {
               <span>Library</span>
             </div>
             <div className="material-grid">
-              <img src="/tools-hub-ai-guide/gufeng/gufeng-card-1.jpg" alt="雪景古风人像" />
-              <img src="/tools-hub-ai-guide/gufeng/gufeng-card-2.jpg" alt="夜景古风人像" />
-              <img src="/tools-hub-ai-guide/gufeng/gufeng-card-3.jpg" alt="暖调古风人像" />
-              <img src="/tools-hub-ai-guide/gufeng/gufeng-card-4.jpg" alt="竹林古风人像" />
+              {[
+                ['gufeng-card-1.jpg', '雪景古风人像'],
+                ['gufeng-card-2.jpg', '夜景古风人像'],
+                ['gufeng-card-3.jpg', '暖调古风人像'],
+                ['gufeng-card-4.jpg', '竹林古风人像'],
+              ].map(([src, alt]) => (
+                <div className="material-zoom image-zoom" style={zoomStyle(src)} onMouseMove={moveMagnifier} key={src}>
+                  <img src={`${gufengBase}/${src}`} alt={alt} />
+                </div>
+              ))}
             </div>
           </section>
         </aside>
