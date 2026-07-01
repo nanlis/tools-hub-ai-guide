@@ -436,6 +436,7 @@ const heroVideoBase = import.meta.env.DEV
   ? '/tools-hub-ai-guide/hero-videos'
   : 'https://raw.githubusercontent.com/nanlis/tools-hub-ai-guide/master/public/hero-videos'
 const gufengBase = '/tools-hub-ai-guide/gufeng'
+const profileBase = '/tools-hub-ai-guide/profile'
 
 const homeStats = [
   { value: '281万+', label: '近一年内容曝光' },
@@ -644,6 +645,44 @@ function App() {
                 <span>{item.text}</span>
               </a>
             ))}
+          </div>
+        </section>
+
+        <section className="profile-section" aria-label="Soran 账号资料">
+          <div className="profile-banner">
+            <img src={`${profileBase}/soran-banner.jpg`} alt="AI 工具实测账号背景" />
+          </div>
+          <div className="profile-body">
+            <img className="profile-avatar" src={`${profileBase}/soran-avatar.jpg`} alt="Soran 头像" />
+            <div className="profile-copy">
+              <p className="eyebrow">X Profile</p>
+              <h2>
+                Soran
+                <span>已认证</span>
+              </h2>
+              <p className="profile-handle">@Soranlan</p>
+              <p className="profile-bio">
+                拆普通人也跑得起的 AI 内容工作流。AI 热点、工具实测、生图视频、Prompt/SOP，只写跑通后的方法。
+              </p>
+              <div className="profile-meta">
+                <span>科技</span>
+                <span>2018 年 12 月加入</span>
+                <span>8937 帖子</span>
+              </div>
+            </div>
+            <div className="profile-actions">
+              <div>
+                <strong>5191</strong>
+                <span>关注者</span>
+              </div>
+              <div>
+                <strong>334</strong>
+                <span>正在关注</span>
+              </div>
+              <a href="https://x.com/Soranlan" target="_blank" rel="noreferrer">
+                打开 X 主页
+              </a>
+            </div>
           </div>
         </section>
 
