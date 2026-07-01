@@ -530,15 +530,35 @@ button {
   line-height: 24px;
 }
 
-.workflow-card button {
+.workflow-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-self: end;
+}
+
+.workflow-actions a,
+.workflow-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   justify-self: start;
   height: 30px;
   border-radius: 999px;
   padding: 0 12px;
-  color: #f8fbfb;
-  background: #517773;
   font-size: 12px;
   font-weight: 900;
+  text-decoration: none;
+}
+
+.workflow-actions a {
+  color: #f8fbfb;
+  background: #517773;
+}
+
+.workflow-actions button {
+  color: #527973;
+  background: rgba(255, 255, 255, 0.68);
 }
 
 .compact-hero {
