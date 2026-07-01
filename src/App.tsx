@@ -761,9 +761,9 @@ function App() {
         <section className="main-column" id="tools">
           <section className="compact-hero">
             <div>
-              <p className="eyebrow">ToolsHub AI · Project</p>
-              <h1>工具库只是个人站里的一个项目</h1>
-              <p>保留 AI 工具筛选，但它不再抢占首页身份。这里服务于 Soran 的工作流：找工具、看素材、复用方法。</p>
+              <p className="eyebrow">ToolsHub AI · Tested Directory</p>
+              <h1>AI 工具实测库</h1>
+              <p>按场景整理常用 AI 工具，优先放进跑通过的模型、应用和工作流入口。适合快速找工具，也适合顺着案例复用方法。</p>
             </div>
             <div className="hero-actions">
               <label className="inline-search">
