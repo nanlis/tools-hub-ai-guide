@@ -438,53 +438,82 @@ const heroVideoBase = import.meta.env.DEV
 const gufengBase = '/tools-hub-ai-guide/gufeng'
 
 const homeStats = [
-  { value: '32+', label: '精选 AI 工具' },
-  { value: '8', label: '创作场景分类' },
-  { value: '16', label: '古风视觉素材' },
+  { value: '281万+', label: '近一年内容曝光' },
+  { value: '12.5万+', label: '内容互动' },
+  { value: '9015', label: '收藏验证' },
+  { value: '1231', label: '新增关注' },
 ]
 
 const homeEntries = [
   {
-    title: '先找工具',
-    text: '按对话、绘图、视频、编程、办公和 Agent 快速进入工具库。',
+    title: 'AI 视觉生产',
+    text: '古风人像、品牌封面、短视频镜头和提示词拆解。',
+    href: '#visual-lab',
+  },
+  {
+    title: '工具实测',
+    text: '只收录跑通过的 AI 工具、模型和交付路径。',
     href: '#tools',
   },
   {
-    title: '再看素材',
-    text: '古风人像、蓝绿色调、毛玻璃卡片，直接作为视觉入口。',
-    href: '#library',
+    title: 'Prompt / SOP',
+    text: '把普通人能复用的步骤整理成卡片和案例。',
+    href: '#cases',
   },
   {
-    title: '按场景选型',
-    text: '短视频、写代码、做 PPT、查资料这些高频任务可以一键筛选。',
-    href: '#assistant',
+    title: '商业案例拆解',
+    text: '从爆款内容、平台变化和成本结构里找机会。',
+    href: '#cases',
   },
 ]
 
 const workflows = [
   {
-    title: '古风短视频',
-    tag: '视觉生产',
-    text: '先定画面风格，再生成视频镜头，最后用配音和剪辑完成发布素材。',
+    title: 'Seedance 2.0 视频工作流',
+    tag: 'AI 视频',
+    text: '从镜头主题、角色一致性到成片筛选，把短视频生成做成可复用流程。',
     tools: ['Midjourney', 'Kling', 'Runway', 'ElevenLabs'],
     query: '视频',
     category: 'video' as CategoryId,
   },
   {
-    title: 'AI 编程交付',
-    tag: '开发效率',
-    text: '用长上下文梳理需求，用 IDE Agent 改代码，再用搜索工具查官方资料。',
+    title: 'Open Design + Codex',
+    tag: '设计交付',
+    text: '用高质量参考拆设计，再在真实前端里实现、截图、验证，而不是只停在效果图。',
     tools: ['Claude', 'Cursor', 'Claude Code', 'Perplexity'],
     query: '代码',
     category: 'code' as CategoryId,
   },
   {
-    title: '知识库问答',
-    tag: '资料整理',
-    text: '资料收集、上传分析、搭建 RAG，再把结果沉淀成可复用知识库。',
+    title: '普通人 SOP',
+    tag: '可复制方法',
+    text: '把账号、工具、素材、发布这些琐碎步骤拆到能照着做的粒度。',
     tools: ['Perplexity', 'NotebookLM', 'Dify', 'n8n'],
     query: '资料',
     category: 'office' as CategoryId,
+  },
+]
+
+const proofCards = [
+  {
+    title: 'AI 女孩流水线拆解',
+    metric: '33.2万曝光',
+    text: '适合放在“机制与风险”栏目，用来展示商业案例拆解能力。',
+  },
+  {
+    title: 'KFC 视觉风格封面',
+    metric: '8531互动',
+    text: '证明账号最强的不是工具罗列，而是视觉风格判断和提示词落地。',
+  },
+  {
+    title: 'Open Design in Codex',
+    metric: '4031互动',
+    text: '适合做成个人站核心案例：从参考、设计到前端实现的完整链路。',
+  },
+  {
+    title: 'Seedance 2.0 短剧判断',
+    metric: '3427互动',
+    text: '用视频生成能力承接热点，也能自然接入当前首页视频资产。',
   },
 ]
 
@@ -564,12 +593,12 @@ function App() {
         />
         <div className="cinema-shade" />
         <div className="cinema-content">
-          <p className="cinema-kicker">Morandi Teal · AI Visual Library</p>
-          <h1>ToolsHub AI</h1>
-          <p>从 AI 工具到古风视觉素材，用一个安静、克制、可筛选的入口完成创作选型。</p>
+          <p className="cinema-kicker">Soran · AI Workflow Lab</p>
+          <h1>Soran</h1>
+          <p>拆普通人也跑得起的 AI 内容工作流。AI 热点、工具实测、生图视频、Prompt/SOP，只展示跑通后的方法。</p>
           <div className="cinema-actions">
-            <a href="#top">进入主页</a>
-            <a className="secondary-link" href="#library">浏览古风素材</a>
+            <a href="#top">看工作流</a>
+            <a className="secondary-link" href="#cases">看高表现案例</a>
           </div>
         </div>
         <div className="video-switcher" aria-label="切换开屏视频">
@@ -591,11 +620,11 @@ function App() {
       </section>
 
       <div className="shell" id="top">
-        <section className="home-overview" aria-label="ToolsHub AI 首页概览">
+        <section className="home-overview" aria-label="Soran 个人站首页概览">
           <div className="home-copy">
-            <p className="eyebrow">Home</p>
-            <h2>从开屏视觉进入真正能用的 AI 创作主页</h2>
-            <p>这里不是普通工具列表，而是把工具检索、古风素材、热门入口和场景筛选放在同一个首页工作台里。</p>
+            <p className="eyebrow">Personal Site</p>
+            <h2>不是简历站，是 Soran 的 AI 工作流中枢</h2>
+            <p>把 X 上验证过的内容、视觉实验、工具实测和 SOP 沉淀成一个可浏览、可复用、可继续扩展的个人网站。</p>
           </div>
           <div className="home-stats">
             {homeStats.map((item) => (
@@ -615,11 +644,11 @@ function App() {
           </div>
         </section>
 
-        <section className="workflow-section" aria-label="精选 AI 创作工作流">
+        <section className="workflow-section" aria-label="精选 AI 创作工作流" id="cases">
           <div className="section-title workflow-title">
             <div>
-              <p className="eyebrow">Workflow Picks</p>
-              <h2>精选 AI 创作工作流</h2>
+              <p className="eyebrow">Signature Workflows</p>
+              <h2>先做三条能代表 Soran 的路径</h2>
             </div>
             <em>{workflows.length}</em>
           </div>
@@ -640,6 +669,25 @@ function App() {
                 <button type="button" onClick={() => applyWorkflow(workflow)}>
                   查看这条路径
                 </button>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="proof-section" aria-label="账号高表现内容证明">
+          <div className="section-title workflow-title">
+            <div>
+              <p className="eyebrow">Proof From X</p>
+              <h2>用内容表现证明方向，而不是堆头衔</h2>
+            </div>
+            <em>{proofCards.length}</em>
+          </div>
+          <div className="proof-grid">
+            {proofCards.map((item) => (
+              <article className="proof-card" key={item.title}>
+                <span>{item.metric}</span>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
               </article>
             ))}
           </div>
@@ -666,9 +714,9 @@ function App() {
         <section className="main-column" id="tools">
           <section className="compact-hero">
             <div>
-              <p className="eyebrow">Morandi Glass · AI Tools Directory</p>
-              <h1>AI 工具导航</h1>
-              <p>精选常用 AI 工具，按对话、绘图、视频、编程、办公和 Agent 分类查找。加入古风人像素材入口，做出我们自己的蓝绿色视觉识别。</p>
+              <p className="eyebrow">ToolsHub AI · Project</p>
+              <h1>工具库只是个人站里的一个项目</h1>
+              <p>保留 AI 工具筛选，但它不再抢占首页身份。这里服务于 Soran 的工作流：找工具、看素材、复用方法。</p>
             </div>
             <div className="hero-actions">
               <label className="inline-search">
@@ -695,11 +743,11 @@ function App() {
             </div>
           </section>
 
-          <section className="gufeng-feature">
+          <section className="gufeng-feature" id="visual-lab">
             <div className="gufeng-copy">
-              <p className="eyebrow">Featured Library</p>
-              <h2>古风人像素材精选</h2>
-              <p>从本地素材库挑选冷调古风人像，用莫兰迪蓝绿和毛玻璃界面做成站点自己的视觉入口。</p>
+              <p className="eyebrow">Soran Visual Library</p>
+              <h2>AI 视觉风格样本库</h2>
+              <p>古风人像、封面风格、短视频镜头和提示词灵感，做成个人站最有辨识度的视觉资产。</p>
               <div className="gufeng-tags">
                 <span>古风人像</span>
                 <span>蓝绿色</span>
