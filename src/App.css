@@ -136,7 +136,7 @@ button {
 
 .cinema-content h1 {
   color: #ffffff;
-  font-size: 64px;
+  font-size: 76px;
   line-height: 1;
   text-shadow: 0 18px 48px rgba(0, 0, 0, 0.38);
 }
@@ -300,7 +300,7 @@ button {
 .home-overview {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(250px, 0.7fr) minmax(360px, 1fr);
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.9fr) minmax(340px, 0.8fr);
   gap: 14px;
   align-items: stretch;
   padding: 18px;
@@ -317,7 +317,7 @@ button {
 .home-copy h2 {
   max-width: 560px;
   color: #24383d;
-  font-size: 28px;
+  font-size: 31px;
   line-height: 1.18;
 }
 
@@ -331,7 +331,7 @@ button {
 
 .home-stats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -339,7 +339,7 @@ button {
   display: grid;
   align-content: center;
   justify-items: center;
-  min-height: 160px;
+  min-height: 76px;
   border: 1px solid rgba(176, 200, 196, 0.42);
   border-radius: 18px;
   background: rgba(247, 251, 250, 0.56);
@@ -347,7 +347,7 @@ button {
 
 .home-stat strong {
   color: #325d59;
-  font-size: 26px;
+  font-size: 25px;
   line-height: 1;
 }
 
@@ -397,6 +397,56 @@ button {
   grid-column: 1 / -1;
   padding: 16px;
   border-radius: 22px;
+}
+
+.proof-section {
+  grid-column: 1 / -1;
+  padding: 16px;
+  border: 1px solid rgba(176, 200, 196, 0.56);
+  border-radius: 22px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.62), rgba(226, 239, 236, 0.42)),
+    rgba(255, 255, 255, 0.52);
+  box-shadow: 0 18px 54px rgba(47, 79, 82, 0.08);
+  backdrop-filter: blur(22px) saturate(1.28);
+}
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.proof-card {
+  display: grid;
+  gap: 8px;
+  min-height: 150px;
+  border: 1px solid rgba(176, 200, 196, 0.42);
+  border-radius: 17px;
+  padding: 14px;
+  background: rgba(247, 251, 250, 0.58);
+}
+
+.proof-card span {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: #456d68;
+  background: rgba(221, 235, 232, 0.86);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.proof-card h3 {
+  color: #26383d;
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.proof-card p {
+  color: #61777a;
+  font-size: 12px;
+  line-height: 1.65;
 }
 
 .workflow-title {
@@ -1299,6 +1349,10 @@ h1 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .proof-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .right-rail {
     grid-column: 2;
     position: static;
@@ -1433,11 +1487,22 @@ h1 {
     border-radius: 20px;
   }
 
-  .workflow-grid {
+  .workflow-grid,
+  .proof-grid {
     grid-template-columns: 1fr;
   }
 
+  .proof-section {
+    grid-column: 1;
+    padding: 14px;
+    border-radius: 20px;
+  }
+
   .workflow-card {
+    min-height: 0;
+  }
+
+  .proof-card {
     min-height: 0;
   }
 
@@ -1531,7 +1596,7 @@ h1 {
   }
 
   .cinema-content h1 {
-    font-size: clamp(42px, 12vw, 52px);
+    font-size: clamp(52px, 16vw, 70px);
   }
 
   .cinema-content p {
@@ -1594,6 +1659,7 @@ h1 {
   }
 
   .home-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 7px;
   }
 
