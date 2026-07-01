@@ -503,21 +503,25 @@ const proofCards = [
     title: 'AI 女孩流水线拆解',
     metric: '33.2万曝光',
     text: '适合放在“机制与风险”栏目，用来展示商业案例拆解能力。',
+    tweetUrl: 'https://x.com/Soranlan/status/2058356078157631966',
   },
   {
     title: 'KFC 视觉风格封面',
     metric: '8531互动',
     text: '证明账号最强的不是工具罗列，而是视觉风格判断和提示词落地。',
+    tweetUrl: 'https://x.com/Soranlan/status/2060546435301679490',
   },
   {
     title: 'GPT Image 可编辑 PSD',
     metric: '3230互动',
     text: '证明账号能把模型更新翻译成设计师和内容创作者真正用得上的工作流。',
+    tweetUrl: 'https://x.com/Soranlan/status/2048591383397605824',
   },
   {
     title: 'OpenViking / OpenClaw',
     metric: '2770互动',
     text: '用开源模型案例拆成本、风险和机会，补足视觉内容之外的行业判断。',
+    tweetUrl: 'https://x.com/Soranlan/status/2023607485425218022',
   },
 ]
 
@@ -735,6 +739,9 @@ function App() {
                 <span>{item.metric}</span>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
+                <a href={item.tweetUrl} target="_blank" rel="noreferrer">
+                  查看原推文
+                </a>
               </article>
             ))}
           </div>
