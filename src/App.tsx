@@ -510,14 +510,14 @@ const proofCards = [
     text: '证明账号最强的不是工具罗列，而是视觉风格判断和提示词落地。',
   },
   {
-    title: 'Open Design in Codex',
-    metric: '4031互动',
-    text: '适合做成个人站核心案例：从参考、设计到前端实现的完整链路。',
+    title: 'GPT Image 可编辑 PSD',
+    metric: '3230互动',
+    text: '证明账号能把模型更新翻译成设计师和内容创作者真正用得上的工作流。',
   },
   {
-    title: 'Seedance 2.0 短剧判断',
-    metric: '3427互动',
-    text: '用视频生成能力承接热点，也能自然接入当前首页视频资产。',
+    title: 'OpenViking / OpenClaw',
+    metric: '2770互动',
+    text: '用开源模型案例拆成本、风险和机会，补足视觉内容之外的行业判断。',
   },
 ]
 
