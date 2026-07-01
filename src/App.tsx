@@ -475,6 +475,7 @@ const workflows = [
     tools: ['Midjourney', 'Kling', 'Runway', 'ElevenLabs'],
     query: '视频',
     category: 'video' as CategoryId,
+    tweetUrl: 'https://x.com/Soranlan/status/2020288614467264961',
   },
   {
     title: 'Open Design + Codex',
@@ -483,6 +484,7 @@ const workflows = [
     tools: ['Claude', 'Cursor', 'Claude Code', 'Perplexity'],
     query: '代码',
     category: 'code' as CategoryId,
+    tweetUrl: 'https://x.com/Soranlan/status/2056555870159589631',
   },
   {
     title: '普通人 SOP',
@@ -491,6 +493,7 @@ const workflows = [
     tools: ['Perplexity', 'NotebookLM', 'Dify', 'n8n'],
     query: '资料',
     category: 'office' as CategoryId,
+    tweetUrl: 'https://x.com/Soranlan/status/2052583510754623735',
   },
 ]
 
@@ -666,9 +669,14 @@ function App() {
                     <span key={tool}>{tool}</span>
                   ))}
                 </div>
-                <button type="button" onClick={() => applyWorkflow(workflow)}>
-                  查看这条路径
-                </button>
+                <div className="workflow-actions">
+                  <a href={workflow.tweetUrl} target="_blank" rel="noreferrer">
+                    查看原推文
+                  </a>
+                  <button type="button" onClick={() => applyWorkflow(workflow)}>
+                    筛选工具
+                  </button>
+                </div>
               </article>
             ))}
           </div>
