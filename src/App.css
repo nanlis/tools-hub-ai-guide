@@ -604,6 +604,22 @@ button {
   line-height: 1.65;
 }
 
+.proof-card a {
+  align-self: end;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  border-radius: 999px;
+  padding: 0 12px;
+  color: #f8fbfb;
+  background: #517773;
+  font-size: 12px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
 .workflow-title {
   align-items: end;
 }
