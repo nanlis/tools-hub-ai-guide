@@ -430,7 +430,7 @@ type HeroVideo = {
   portraitSrc?: string;
   label: string;
   tone: string;
-  layout?: "center" | "performer" | "lifestyle" | "battle" | "tranquil";
+  layout?: "center" | "performer" | "lifestyle" | "battle" | "tranquil" | "studio";
 };
 
 const heroVideos: HeroVideo[] = [
@@ -453,6 +453,13 @@ const heroVideos: HeroVideo[] = [
     label: "溪边拾光",
     tone: "古风生活感",
     layout: "tranquil",
+  },
+  {
+    src: "ai-outfit-conversation.mp4",
+    posterSrc: "ai-outfit-conversation-poster.webp",
+    label: "AI 试衣对话",
+    tone: "多套造型切换",
+    layout: "studio",
   },
   {
     src: "grok-live-16x9.mp4",
@@ -811,12 +818,14 @@ function App() {
   const isLifestyleHero = activeHeroVideo.layout === "lifestyle";
   const isBattleHero = activeHeroVideo.layout === "battle";
   const isTranquilHero = activeHeroVideo.layout === "tranquil";
+  const isStudioHero = activeHeroVideo.layout === "studio";
   const heroClassName = [
     "cinema-hero",
     isPerformerHero && "cinema-hero--performer",
     isLifestyleHero && "cinema-hero--lifestyle",
     isBattleHero && "cinema-hero--battle",
     isTranquilHero && "cinema-hero--tranquil",
+    isStudioHero && "cinema-hero--studio",
     isPortraitViewport && "cinema-hero--portrait",
   ]
     .filter(Boolean)
@@ -835,7 +844,9 @@ function App() {
                 ? "夕照武侠交锋开屏"
                 : isTranquilHero
                   ? "溪边古风生活开屏"
-                  : "古风 AI 视觉开屏"
+                  : isStudioHero
+                    ? "AI 试衣对话开屏"
+                    : "古风 AI 视觉开屏"
         }
       >
         <video
