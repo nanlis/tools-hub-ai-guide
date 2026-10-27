@@ -1,1 +1,8 @@
-import { defineConfig } from "vite";`nimport react from "@vitejs/plugin-react";`n`n// The site is served from the custom domain root.`nexport default defineConfig({`n  base: "/",`n  plugins: [react()],`n});`n
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+// The site is served from the custom domain root.
+export default defineConfig({
+  base: "/",
+  plugins: [react()],
+});

@@ -430,6 +430,11 @@ const heroVideos = [
     label: "雪院剑阵",
     tone: "Seedance 2.0",
   },
+  {
+    src: "cloud-palace-flythrough.mp4",
+    label: "云上仙宫",
+    tone: "御剑穿行",
+  },
   { src: "seedance-palace-battle.mp4", label: "仙门大战", tone: "大场面法术" },
   { src: "ancient-mystery-night.mp4", label: "雨夜古风", tone: "冷蓝电影感" },
   { src: "storm-spell-rain.mp4", label: "风暴仙侠", tone: "强冲击开屏" },
