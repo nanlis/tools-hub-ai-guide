@@ -229,6 +229,74 @@ button {
   line-height: 1.8;
 }
 
+.cinema-hero--performer {
+  place-items: center start;
+}
+
+.cinema-hero--performer .cinema-content {
+  justify-items: start;
+  width: min(500px, calc(42vw - 40px));
+  margin: 0 0 0 clamp(36px, 7vw, 120px);
+  text-align: left;
+}
+
+.cinema-hero--performer .cinema-content p {
+  max-width: 420px;
+}
+
+.cinema-hero--performer .cinema-actions {
+  justify-content: flex-start;
+}
+
+.cinema-hero--performer-portrait {
+  place-items: end stretch;
+}
+
+.cinema-hero--performer-portrait .cinema-video {
+  transform: none;
+}
+
+.cinema-hero--performer-portrait .cinema-shade {
+  background: linear-gradient(
+    0deg,
+    rgba(5, 14, 16, 0.96) 0%,
+    rgba(5, 14, 16, 0.78) 24%,
+    rgba(5, 14, 16, 0.12) 58%,
+    rgba(5, 14, 16, 0.08) 100%
+  );
+}
+
+.cinema-hero--performer-portrait .cinema-content {
+  align-self: end;
+  justify-items: start;
+  width: auto;
+  margin: 0 18px clamp(148px, 20svh, 180px);
+  text-align: left;
+}
+
+.cinema-hero--performer-portrait .cinema-content h1 {
+  font-size: clamp(44px, 12vw, 58px);
+}
+
+.cinema-hero--performer-portrait .cinema-content p {
+  max-width: 34ch;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.cinema-hero--performer-portrait .cinema-actions {
+  width: auto;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.cinema-hero--performer-portrait .cinema-actions a {
+  flex: 0 0 auto;
+  height: 34px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+
 .cinema-actions {
   display: flex;
   flex-wrap: wrap;

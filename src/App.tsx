@@ -424,11 +424,26 @@ const heroSlides = [
   "gufeng-gallery-07.jpg",
 ];
 
-const heroVideos = [
+type HeroVideo = {
+  src: string;
+  portraitSrc?: string;
+  label: string;
+  tone: string;
+  layout?: "center" | "performer";
+};
+
+const heroVideos: HeroVideo[] = [
   {
     src: "seedance-courtyard-swords-clean.mp4",
     label: "雪院剑阵",
     tone: "Seedance 2.0",
+  },
+  {
+    src: "grok-live-16x9.mp4",
+    portraitSrc: "grok-live-9x16.mp4",
+    label: "排练室现场",
+    tone: "贝斯 Live",
+    layout: "performer",
   },
   {
     src: "cloud-palace-flythrough.mp4",
@@ -631,11 +646,27 @@ function App() {
   });
   const [showAllTools, setShowAllTools] = useState(false);
   const [activeVideo, setActiveVideo] = useState(0);
+  const [isPortraitViewport, setIsPortraitViewport] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia("(orientation: portrait)").matches,
+  );
   const [previewImage, setPreviewImage] = useState<{
     src: string;
     title: string;
     tone: string;
   } | null>(null);
+
+  useEffect(() => {
+    const orientation = window.matchMedia("(orientation: portrait)");
+    const updateOrientation = () => setIsPortraitViewport(orientation.matches);
+    if (typeof orientation.addEventListener === "function") {
+      orientation.addEventListener("change", updateOrientation);
+      return () => orientation.removeEventListener("change", updateOrientation);
+    }
+    orientation.addListener(updateOrientation);
+    return () => orientation.removeListener(updateOrientation);
+  }, []);
 
   const visibleTools = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -724,17 +755,34 @@ function App() {
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  const activeHeroVideo = heroVideos[activeVideo];
+  const activeHeroVideoSrc =
+    isPortraitViewport && activeHeroVideo.portraitSrc
+      ? activeHeroVideo.portraitSrc
+      : activeHeroVideo.src;
+  const isPerformerHero = activeHeroVideo.layout === "performer";
+  const heroClassName = [
+    "cinema-hero",
+    isPerformerHero && "cinema-hero--performer",
+    isPerformerHero && isPortraitViewport && "cinema-hero--performer-portrait",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <main className="app">
-      <section className="cinema-hero" aria-label="古风 AI 视觉开屏">
+      <section
+        className={heroClassName}
+        aria-label={isPerformerHero ? "排练室贝斯演奏开屏" : "古风 AI 视觉开屏"}
+      >
         <video
           className="cinema-video"
-          src={`${heroVideoBase}/${heroVideos[activeVideo].src}`}
+          src={`${heroVideoBase}/${activeHeroVideoSrc}`}
           autoPlay
           muted
           playsInline
           onEnded={showNextVideo}
-          key={heroVideos[activeVideo].src}
+          key={activeHeroVideoSrc}
         />
         <div className="cinema-shade" />
         <div className="cinema-content">
@@ -756,7 +804,7 @@ function App() {
             <button
               className={activeVideo === index ? "active" : ""}
               type="button"
-              key={video.src}
+              key={`${video.src}:${video.portraitSrc ?? ""}`}
               onClick={() => setActiveVideo(index)}
             >
               <span>{video.label}</span>
