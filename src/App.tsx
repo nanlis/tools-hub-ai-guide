@@ -430,7 +430,7 @@ type HeroVideo = {
   portraitSrc?: string;
   label: string;
   tone: string;
-  layout?: "center" | "performer" | "lifestyle";
+  layout?: "center" | "performer" | "lifestyle" | "battle";
 };
 
 const heroVideos: HeroVideo[] = [
@@ -439,6 +439,13 @@ const heroVideos: HeroVideo[] = [
     posterSrc: "seedance-courtyard-swords-poster.webp",
     label: "雪院剑阵",
     tone: "Seedance 2.0",
+  },
+  {
+    src: "cloud-platform-duel.mp4",
+    posterSrc: "cloud-platform-duel-poster.webp",
+    label: "夕照交锋",
+    tone: "武侠决斗",
+    layout: "battle",
   },
   {
     src: "grok-live-16x9.mp4",
@@ -795,10 +802,12 @@ function App() {
       : activeHeroVideo.src;
   const isPerformerHero = activeHeroVideo.layout === "performer";
   const isLifestyleHero = activeHeroVideo.layout === "lifestyle";
+  const isBattleHero = activeHeroVideo.layout === "battle";
   const heroClassName = [
     "cinema-hero",
     isPerformerHero && "cinema-hero--performer",
     isLifestyleHero && "cinema-hero--lifestyle",
+    isBattleHero && "cinema-hero--battle",
     isPortraitViewport && "cinema-hero--portrait",
   ]
     .filter(Boolean)
@@ -813,7 +822,9 @@ function App() {
             ? "排练室贝斯演奏开屏"
             : isLifestyleHero
               ? "居家生活方式开屏"
-              : "古风 AI 视觉开屏"
+              : isBattleHero
+                ? "夕照武侠交锋开屏"
+                : "古风 AI 视觉开屏"
         }
       >
         <video

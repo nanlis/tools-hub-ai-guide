@@ -248,6 +248,31 @@ button {
   justify-content: flex-start;
 }
 
+.cinema-hero--battle {
+  place-items: center start;
+}
+
+.cinema-hero--battle .cinema-shade {
+  background:
+    linear-gradient(90deg, rgba(5, 14, 16, 0.8), rgba(5, 14, 16, 0.36) 42%, transparent 76%),
+    linear-gradient(180deg, rgba(5, 14, 16, 0.08), transparent 42%, rgba(5, 14, 16, 0.38));
+}
+
+.cinema-hero--battle .cinema-content {
+  justify-items: start;
+  width: min(500px, calc(42vw - 40px));
+  margin: 0 0 0 clamp(36px, 7vw, 120px);
+  text-align: left;
+}
+
+.cinema-hero--battle .cinema-content p {
+  max-width: 420px;
+}
+
+.cinema-hero--battle .cinema-actions {
+  justify-content: flex-start;
+}
+
 .cinema-hero--lifestyle {
   place-items: center end;
 }
