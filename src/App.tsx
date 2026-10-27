@@ -438,10 +438,10 @@ const heroVideos = [
   { src: "mountain-qin.mp4", label: "云海抚琴", tone: "东方意境" },
 ];
 const heroVideoBase = import.meta.env.DEV
-  ? "/tools-hub-ai-guide/hero-videos"
+  ? "/hero-videos"
   : "https://raw.githubusercontent.com/nanlis/tools-hub-ai-guide/master/public/hero-videos";
-const gufengBase = "/tools-hub-ai-guide/gufeng";
-const profileBase = "/tools-hub-ai-guide/profile";
+const gufengBase = "/gufeng";
+const profileBase = "/profile";
 
 const homeStats = [
   { value: "281万+", label: "内容曝光" },
@@ -930,7 +930,7 @@ function App() {
               <div className="hero-slideshow" aria-label="古风人像动态图片秀">
                 {heroSlides.map((slide, index) => (
                   <img
-                    src={`/tools-hub-ai-guide/gufeng/${slide}`}
+                    src={`/gufeng/${slide}`}
                     alt={index === 0 ? "古风人像主视觉" : ""}
                     aria-hidden={index === 0 ? undefined : true}
                     key={slide}
