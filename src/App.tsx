@@ -437,9 +437,7 @@ const heroVideos = [
   { src: "lantern-market-mask.mp4", label: "灯市狐面", tone: "夜市氛围" },
   { src: "mountain-qin.mp4", label: "云海抚琴", tone: "东方意境" },
 ];
-const heroVideoBase = import.meta.env.DEV
-  ? "/hero-videos"
-  : "https://raw.githubusercontent.com/nanlis/tools-hub-ai-guide/master/public/hero-videos";
+const heroVideoBase = "/hero-videos";
 const gufengBase = "/gufeng";
 const profileBase = "/profile";
 
