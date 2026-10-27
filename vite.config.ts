@@ -1,8 +1,1 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-
-// https://vite.dev/config/
-export default defineConfig({
-  base: "/tools-hub-ai-guide/",
-  plugins: [react()],
-});
+import { defineConfig } from "vite";`nimport react from "@vitejs/plugin-react";`n`n// The site is served from the custom domain root.`nexport default defineConfig({`n  base: "/",`n  plugins: [react()],`n});`n
