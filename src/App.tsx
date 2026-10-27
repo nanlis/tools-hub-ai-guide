@@ -462,6 +462,13 @@ const heroVideos: HeroVideo[] = [
     layout: "studio",
   },
   {
+    src: "late-night-conversation.mp4",
+    posterSrc: "late-night-conversation-poster.webp",
+    label: "深夜来访",
+    tone: "生活流叙事",
+    layout: "lifestyle",
+  },
+  {
     src: "grok-live-16x9.mp4",
     portraitSrc: "grok-live-9x16.mp4",
     label: "排练室现场",
