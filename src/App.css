@@ -273,6 +273,31 @@ button {
   justify-content: flex-start;
 }
 
+.cinema-hero--tranquil {
+  place-items: end center;
+}
+
+.cinema-hero--tranquil .cinema-shade {
+  background: linear-gradient(
+    0deg,
+    rgba(5, 14, 16, 0.9) 0%,
+    rgba(5, 14, 16, 0.64) 20%,
+    rgba(5, 14, 16, 0.08) 58%,
+    transparent 76%
+  );
+}
+
+.cinema-hero--tranquil .cinema-content {
+  justify-items: center;
+  width: min(780px, calc(100% - 36px));
+  margin: 0 0 clamp(140px, 15vh, 190px);
+  text-align: center;
+}
+
+.cinema-hero--tranquil .cinema-actions {
+  justify-content: center;
+}
+
 .cinema-hero--lifestyle {
   place-items: center end;
 }
