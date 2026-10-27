@@ -248,15 +248,40 @@ button {
   justify-content: flex-start;
 }
 
-.cinema-hero--performer-portrait {
+.cinema-hero--lifestyle {
+  place-items: center end;
+}
+
+.cinema-hero--lifestyle .cinema-shade {
+  background:
+    linear-gradient(90deg, transparent 36%, rgba(5, 14, 16, 0.16) 52%, rgba(5, 14, 16, 0.78) 100%),
+    linear-gradient(180deg, rgba(5, 14, 16, 0.18), transparent 35%, rgba(5, 14, 16, 0.56));
+}
+
+.cinema-hero--lifestyle .cinema-content {
+  justify-items: start;
+  width: min(440px, 38vw);
+  margin: 0 clamp(36px, 7vw, 120px) 0 0;
+  text-align: left;
+}
+
+.cinema-hero--lifestyle .cinema-content p {
+  max-width: 38ch;
+}
+
+.cinema-hero--lifestyle .cinema-actions {
+  justify-content: flex-start;
+}
+
+.cinema-hero--responsive-portrait {
   place-items: end stretch;
 }
 
-.cinema-hero--performer-portrait .cinema-video {
+.cinema-hero--responsive-portrait .cinema-video {
   transform: none;
 }
 
-.cinema-hero--performer-portrait .cinema-shade {
+.cinema-hero--responsive-portrait .cinema-shade {
   background: linear-gradient(
     0deg,
     rgba(5, 14, 16, 0.96) 0%,
@@ -266,7 +291,7 @@ button {
   );
 }
 
-.cinema-hero--performer-portrait .cinema-content {
+.cinema-hero--responsive-portrait .cinema-content {
   align-self: end;
   justify-items: start;
   width: auto;
@@ -274,23 +299,23 @@ button {
   text-align: left;
 }
 
-.cinema-hero--performer-portrait .cinema-content h1 {
+.cinema-hero--responsive-portrait .cinema-content h1 {
   font-size: clamp(44px, 12vw, 58px);
 }
 
-.cinema-hero--performer-portrait .cinema-content p {
+.cinema-hero--responsive-portrait .cinema-content p {
   max-width: 34ch;
   font-size: 12px;
   line-height: 1.6;
 }
 
-.cinema-hero--performer-portrait .cinema-actions {
+.cinema-hero--responsive-portrait .cinema-actions {
   width: auto;
   gap: 8px;
   margin-top: 12px;
 }
 
-.cinema-hero--performer-portrait .cinema-actions a {
+.cinema-hero--responsive-portrait .cinema-actions a {
   flex: 0 0 auto;
   height: 34px;
   padding: 0 12px;

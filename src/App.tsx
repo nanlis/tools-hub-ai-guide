@@ -429,7 +429,7 @@ type HeroVideo = {
   portraitSrc?: string;
   label: string;
   tone: string;
-  layout?: "center" | "performer";
+  layout?: "center" | "performer" | "lifestyle";
 };
 
 const heroVideos: HeroVideo[] = [
@@ -444,6 +444,12 @@ const heroVideos: HeroVideo[] = [
     label: "排练室现场",
     tone: "贝斯 Live",
     layout: "performer",
+  },
+  {
+    src: "grok-home-lifestyle.mp4",
+    label: "居家光影",
+    tone: "生活方式",
+    layout: "lifestyle",
   },
   {
     src: "cloud-palace-flythrough.mp4",
@@ -761,10 +767,13 @@ function App() {
       ? activeHeroVideo.portraitSrc
       : activeHeroVideo.src;
   const isPerformerHero = activeHeroVideo.layout === "performer";
+  const isLifestyleHero = activeHeroVideo.layout === "lifestyle";
+  const isResponsiveHero = isPerformerHero || isLifestyleHero;
   const heroClassName = [
     "cinema-hero",
     isPerformerHero && "cinema-hero--performer",
-    isPerformerHero && isPortraitViewport && "cinema-hero--performer-portrait",
+    isLifestyleHero && "cinema-hero--lifestyle",
+    isResponsiveHero && isPortraitViewport && "cinema-hero--responsive-portrait",
   ]
     .filter(Boolean)
     .join(" ");
@@ -773,7 +782,13 @@ function App() {
     <main className="app">
       <section
         className={heroClassName}
-        aria-label={isPerformerHero ? "排练室贝斯演奏开屏" : "古风 AI 视觉开屏"}
+        aria-label={
+          isPerformerHero
+            ? "排练室贝斯演奏开屏"
+            : isLifestyleHero
+              ? "居家生活方式开屏"
+              : "古风 AI 视觉开屏"
+        }
       >
         <video
           className="cinema-video"
