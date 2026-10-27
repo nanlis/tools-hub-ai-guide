@@ -426,6 +426,7 @@ const heroSlides = [
 
 type HeroVideo = {
   src: string;
+  posterSrc?: string;
   portraitSrc?: string;
   label: string;
   tone: string;
@@ -434,7 +435,8 @@ type HeroVideo = {
 
 const heroVideos: HeroVideo[] = [
   {
-    src: "seedance-courtyard-swords-clean.mp4",
+    src: "seedance-courtyard-swords-clean-optimized.mp4",
+    posterSrc: "seedance-courtyard-swords-poster.webp",
     label: "雪院剑阵",
     tone: "Seedance 2.0",
   },
@@ -652,6 +654,7 @@ function App() {
   });
   const [showAllTools, setShowAllTools] = useState(false);
   const [activeVideo, setActiveVideo] = useState(0);
+  const [shouldLoadHeroVideo, setShouldLoadHeroVideo] = useState(false);
   const [isPortraitViewport, setIsPortraitViewport] = useState(
     () =>
       typeof window !== "undefined" &&
@@ -672,6 +675,30 @@ function App() {
     }
     orientation.addListener(updateOrientation);
     return () => orientation.removeListener(updateOrientation);
+  }, []);
+
+  useEffect(() => {
+    const idleWindow = window as unknown as {
+      requestIdleCallback?: (
+        callback: () => void,
+        options?: { timeout?: number },
+      ) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+
+    if (idleWindow.requestIdleCallback && idleWindow.cancelIdleCallback) {
+      const idleHandle = idleWindow.requestIdleCallback(
+        () => setShouldLoadHeroVideo(true),
+        { timeout: 1200 },
+      );
+      return () => idleWindow.cancelIdleCallback?.(idleHandle);
+    }
+
+    const timeoutHandle = window.setTimeout(
+      () => setShouldLoadHeroVideo(true),
+      300,
+    );
+    return () => window.clearTimeout(timeoutHandle);
   }, []);
 
   const visibleTools = useMemo(() => {
@@ -768,12 +795,11 @@ function App() {
       : activeHeroVideo.src;
   const isPerformerHero = activeHeroVideo.layout === "performer";
   const isLifestyleHero = activeHeroVideo.layout === "lifestyle";
-  const isResponsiveHero = isPerformerHero || isLifestyleHero;
   const heroClassName = [
     "cinema-hero",
     isPerformerHero && "cinema-hero--performer",
     isLifestyleHero && "cinema-hero--lifestyle",
-    isResponsiveHero && isPortraitViewport && "cinema-hero--responsive-portrait",
+    isPortraitViewport && "cinema-hero--portrait",
   ]
     .filter(Boolean)
     .join(" ");
@@ -792,10 +818,16 @@ function App() {
       >
         <video
           className="cinema-video"
-          src={`${heroVideoBase}/${activeHeroVideoSrc}`}
-          autoPlay
+          src={shouldLoadHeroVideo ? `${heroVideoBase}/${activeHeroVideoSrc}` : undefined}
+          poster={
+            activeHeroVideo.posterSrc
+              ? `${heroVideoBase}/${activeHeroVideo.posterSrc}`
+              : undefined
+          }
+          autoPlay={shouldLoadHeroVideo}
           muted
           playsInline
+          preload={shouldLoadHeroVideo ? "auto" : "none"}
           onEnded={showNextVideo}
           key={activeHeroVideoSrc}
         />
@@ -874,6 +906,8 @@ function App() {
               className="profile-avatar"
               src={`${profileBase}/soran-avatar.jpg`}
               alt="Soran 头像"
+              loading="lazy"
+              decoding="async"
             />
             <div className="profile-copy">
               <p className="eyebrow">X / 账号数据</p>
@@ -999,6 +1033,8 @@ function App() {
                     src={`/gufeng/${slide}`}
                     alt={index === 0 ? "古风人像主视觉" : ""}
                     aria-hidden={index === 0 ? undefined : true}
+                    loading="lazy"
+                    decoding="async"
                     key={slide}
                   />
                 ))}
@@ -1026,7 +1062,12 @@ function App() {
                     onClick={() => setPreviewImage(item)}
                     aria-label={`预览 ${item.title}，${item.tone}`}
                   >
-                    <img src={`${gufengBase}/${item.src}`} alt={item.title} />
+                    <img
+                      src={`${gufengBase}/${item.src}`}
+                      alt={item.title}
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </button>
                   <div className="library-meta">
                     <strong>{item.title}</strong>
@@ -1327,7 +1368,12 @@ function App() {
                   key={src}
                   aria-label={`预览 ${alt}，古风素材`}
                 >
-                  <img src={`${gufengBase}/${src}`} alt={alt} />
+                  <img
+                    src={`${gufengBase}/${src}`}
+                    alt={alt}
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </button>
               ))}
             </div>

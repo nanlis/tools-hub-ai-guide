@@ -273,15 +273,15 @@ button {
   justify-content: flex-start;
 }
 
-.cinema-hero--responsive-portrait {
+.cinema-hero--portrait {
   place-items: end stretch;
 }
 
-.cinema-hero--responsive-portrait .cinema-video {
+.cinema-hero--portrait .cinema-video {
   transform: none;
 }
 
-.cinema-hero--responsive-portrait .cinema-shade {
+.cinema-hero--portrait .cinema-shade {
   background: linear-gradient(
     0deg,
     rgba(5, 14, 16, 0.96) 0%,
@@ -291,7 +291,7 @@ button {
   );
 }
 
-.cinema-hero--responsive-portrait .cinema-content {
+.cinema-hero--portrait .cinema-content {
   align-self: end;
   justify-items: start;
   width: auto;
@@ -299,23 +299,23 @@ button {
   text-align: left;
 }
 
-.cinema-hero--responsive-portrait .cinema-content h1 {
+.cinema-hero--portrait .cinema-content h1 {
   font-size: clamp(44px, 12vw, 58px);
 }
 
-.cinema-hero--responsive-portrait .cinema-content p {
+.cinema-hero--portrait .cinema-content p {
   max-width: 34ch;
   font-size: 12px;
   line-height: 1.6;
 }
 
-.cinema-hero--responsive-portrait .cinema-actions {
+.cinema-hero--portrait .cinema-actions {
   width: auto;
   gap: 8px;
   margin-top: 12px;
 }
 
-.cinema-hero--responsive-portrait .cinema-actions a {
+.cinema-hero--portrait .cinema-actions a {
   flex: 0 0 auto;
   height: 34px;
   padding: 0 12px;
@@ -1315,7 +1315,7 @@ h1 {
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: url("/tools-hub-ai-guide/gufeng/gufeng-hero.jpg") center / cover;
+  background: #263e43;
 }
 
 .hero-slideshow img {
@@ -2216,7 +2216,8 @@ h1 {
 @media (max-width: 820px) {
   .page-nav {
     justify-content: flex-start;
-    width: calc(100vw - 24px);
+    width: 100%;
+    max-width: 100%;
     overflow-x: auto;
     border-radius: 16px;
     scrollbar-width: none;
@@ -2463,8 +2464,8 @@ h1 {
     flex-direction: row;
     gap: 7px;
     box-sizing: border-box;
-    width: calc(100vw - 24px);
-    max-width: calc(100vw - 24px);
+    width: 100%;
+    max-width: 100%;
     overflow-x: auto;
     padding: 2px 1px 8px;
     scrollbar-width: none;
